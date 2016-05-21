@@ -39,31 +39,31 @@ void get_expected_limit()
   Char_t file_title_3[200];
 
   int mass_min=200;
-  int mass_inter_0=300;  
-  int mass_inter_1=400;
-  int mass_inter_2=500;  
-  int mass_inter_3=600;
-  int mass_inter_4=700;
-  int mass_max=1000;
+  int mass_inter_0=900;  
+  int mass_inter_1=1000;
+  int mass_inter_2=1200;  
+  int mass_inter_3=1600;
+  int mass_inter_4=2000;
+  int mass_max=4000;
 
-  int binning_0=100;
+  int binning_0=700;
   int binning_1=100;
-  int binning_2=100;
-  int binning_3=100;  
-  int binning_4=100;  
-  int binning_5=100;
+  int binning_2=200;
+  int binning_3=200;  
+  int binning_4=400;  
+  int binning_5=1000;
 
   ///// Expected Limit /////
   int mass_min_exp=200;
-  int mass_inter_0_exp=400;
-  int mass_inter_1_exp=600;
-  int mass_inter_2_exp=800;
-  int mass_max_exp=1000;
+  int mass_inter_0_exp=1000;
+  int mass_inter_1_exp=1600;
+  int mass_inter_2_exp=2000;
+  int mass_max_exp=4000;
 
-  int binning_0_exp=100;
-  int binning_1_exp=100;
-  int binning_2_exp=100;
-  int binning_3_exp=100;
+  int binning_0_exp=800;
+  int binning_1_exp=200;
+  int binning_2_exp=400;
+  int binning_3_exp=1000;
 
   //////////////////////////
 

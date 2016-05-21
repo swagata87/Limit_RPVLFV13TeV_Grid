@@ -65,10 +65,62 @@ echo "------------------"
 tar -xvf workdir.tar
 mass=$1
 
-
 cd workdir/output_masses/Mass_${mass}_output/
 
-combine -M MarkovChainMC -H ProfileLikelihood EmuSpectrum_datacard.txt --tries 100 -s -1  -m 50 -n observed
+if [ "${mass}" -le 1000 ] ;
+  then
+  combine -M MarkovChainMC -H ProfileLikelihood EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed
+elif [[ "${mass}" -gt 1000 && "${mass}" -le 1200 ]] ;
+  then
+  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 0.03
+elif [[ "${mass}" -gt 1200 && "${mass}" -le 1400 ]] ;
+  then
+  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 0.05
+elif [[ "${mass}" -gt 1400 && "${mass}" -le 1600 ]] ;
+  then
+  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 0.09
+elif [[ "${mass}" -gt 1600 && "${mass}" -le 1800 ]] ;
+  then
+  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 0.15
+elif [[ "${mass}" -gt 1800 && "${mass}" -le 2000 ]] ;
+  then
+  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 0.3
+elif [[ "${mass}" -gt 2000 && "${mass}" -le 2200 ]] ;
+  then
+  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 0.5
+elif [[ "${mass}" -gt 2200 && "${mass}" -le 2400 ]] ;
+  then
+  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 0.8
+elif [[ "${mass}" -gt 2400 && "${mass}" -le 2600 ]] ;
+  then
+  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 1.2
+elif [[ "${mass}" -gt 2600 && "${mass}" -le 2800 ]] ;
+  then
+  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 2.0
+elif [[ "${mass}" -gt 2800 && "${mass}" -le 3000 ]] ;
+  then
+  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 3.5
+elif [[ "${mass}" -gt 3000 && "${mass}" -le 3200 ]] ;
+  then
+  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 5.5
+elif [[ "${mass}" -gt 3200 && "${mass}" -le 3400 ]] ;
+  then
+  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 9.5
+elif [[ "${mass}" -gt 3400 && "${mass}" -le 3600 ]] ;
+  then
+  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 14.5
+elif [[ "${mass}" -gt 3600 && "${mass}" -le 3800 ]] ;
+  then
+  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 23.5
+elif [[ "${mass}" -gt 3800 && "${mass}" -le 4000 ]] ;                                                            
+  then                                                                                                          
+  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 40.0
+else
+  echo "Wrong mass value"
+fi
+
+#combine -M MarkovChainMC -H ProfileLikelihood EmuSpectrum_datacard.txt --tries 100 -s -1  -m 50 -n observed
+
 ls -ltr
 mv higgsCombineobserved*.root higgs.root
 tar czf outfile.tar.gz higgs.root
@@ -125,8 +177,7 @@ def main():
         sys.exit( err.errno )
 
 
-    sampleList={"200","300","400","500","600","700","800","900","1000"}    
-
+    sampleList={"200","900","1000","1200","1400","1600","2000","3000","4000"}    
 
     makeExe(options.user)
 

@@ -61,9 +61,9 @@ void create_input_histos(int width_signal_region){
   myfile.open ("txt_out/normalization.txt");
 
   double mass_min=200;
-  double mass_max=1000;
+  double mass_max=4000;
 
-  int step_size=100;
+  int step_size=200;
 
   int N_points=(int)(mass_max-mass_min)/(double)step_size;
 
