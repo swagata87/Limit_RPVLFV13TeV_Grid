@@ -1,0 +1,33 @@
+# number of channels
+imax 4
+# number of background types
+jmax 8
+# number of nuisance parameters (sources of systematical uncertainties)
+kmax *
+#kmax 0
+---------------
+shapes *  lfv_BB_S1  @root_input_file_S1@ $PROCESS  $PROCESS_$SYSTEMATIC 
+shapes *  lfv_BE_S2  @root_input_file_S2@ $PROCESS  $PROCESS_$SYSTEMATIC 
+shapes *  lfv_EB_S3  @root_input_file_S3@ $PROCESS  $PROCESS_$SYSTEMATIC 
+shapes *  lfv_EE_S4  @root_input_file_S4@ $PROCESS  $PROCESS_$SYSTEMATIC 
+---------------
+bin          lfv_BB_S1       lfv_BE_S2       lfv_EB_S3       lfv_EE_S4
+observation  @num_obs_S1@   @num_obs_S2@    @num_obs_S3@    @num_obs_S4@
+------------------------------
+bin       lfv_BB_S1  lfv_BB_S1  lfv_BB_S1  lfv_BB_S1   lfv_BB_S1  lfv_BB_S1  lfv_BB_S1  lfv_BB_S1  lfv_BB_S1    lfv_BE_S2  lfv_BE_S2  lfv_BE_S2  lfv_BE_S2   lfv_BE_S2  lfv_BE_S2  lfv_BE_S2  lfv_BE_S2  lfv_BE_S2     lfv_EB_S3  lfv_EB_S3  lfv_EB_S3  lfv_EB_S3   lfv_EB_S3  lfv_EB_S3  lfv_EB_S3  lfv_EB_S3  lfv_EB_S3     lfv_EE_S4  lfv_EE_S4  lfv_EE_S4  lfv_EE_S4       lfv_EE_S4  lfv_EE_S4  lfv_EE_S4  lfv_EE_S4  lfv_EE_S4
+process   signal     TT_tot     WW_tot     single_top_tot  DY_tot     WZ_tot     ZZ_tot     Wgamma     datadriven  signal     TT_tot     WW_tot     single_top_tot  DY_tot     WZ_tot     ZZ_tot     Wgamma     datadriven  signal     TT_tot     WW_tot     single_top_tot  DY_tot     WZ_tot     ZZ_tot     Wgamma     datadriven  signal     TT_tot     WW_tot     single_top_tot  DY_tot     WZ_tot     ZZ_tot     Wgamma     datadriven  
+process   0          1          2          3               4          5          6          7          8           0          1          2          3               4          5          6          7          8            0          1          2          3               4          5          6          7          8           0          1          2          3               4          5          6          7          8
+--------------------------------
+rate  @rates_S1@   @rates_S2@   @rates_S3@   @rates_S4@ 
+--------------------------------
+lumi		         lnN	1.062	1.062	1.062	1.062  1.062	1.062	1.062	1.062   - 1.062	1.062	1.062	1.062	        1.062	1.062	1.062	1.062   - 1.062	1.062	1.062	1.062	        1.062	1.062	1.062	1.062   - 1.062	1.062	1.062	1.062	        1.062	1.062	1.062	1.062   -
+xsec	                 lnN	-	1.05	1.04	1.05	        1.05	1.05	1.05	1.50    - -	1.05	1.04	1.05	        1.05	1.05	1.05	1.50    - -	1.05	1.04	1.05	        1.05	1.05	1.05	1.50    - -	1.05	1.04	1.05	        1.05	1.05	1.05	1.50    -
+fakerate                 lnN    -       -       -       -               -       -       -       -       1.50  -       -       -       -               -       -       -       -       1.50   -       -       -       -               -       -       -       -       1.50   -       -       -       -               -       -       -       -       1.50 	
+acceff                   lnN    1.10    -       -       -               -       -       -       -       -   1.10    -       -       -               -       -       -       -       -   1.10    -       -       -               -       -       -       -       -   1.10    -       -       -               -       -       -       -       - 
+Ele_syst_Scale		 shape	1.	1.	1.	1.	        1.	1.	1.	1	- 1.	1.	1.	1.	        1.	1.	1.	1	- 1.	1.	1.	1.	        1.	1.	1.	1	- 1.	1.	1.	1.	        1.	1.	1.	1	-
+Muon_syst_Scale		 shape	1.	1.	1.	1.	        1.	1.	1.	1	- 1.	1.	1.	1.	        1.	1.	1.	1	- 1.	1.	1.	1.	        1.	1.	1.	1	- 1.	1.	1.	1.	        1.	1.	1.	1	-
+Muon_syst_Resolution	 shape	1.	1.	1.	1.	        1.	1.	1.	1       - 1.	1.	1.	1.	        1.	1.	1.	1       - 1.	1.	1.	1.	        1.	1.	1.	1       - 1.	1.	1.	1.	        1.	1.	1.	1       -
+pileup_syst_             shape  1.      1.      1.      1.              1.      1.      1.      1       -  1.      1.      1.      1.              1.      1.      1.      1       -  1.      1.      1.      1.              1.      1.      1.      1       -  1.      1.      1.      1.              1.      1.      1.      1       -
+eleID_syst_              shape  1.      1.      1.      1.              1.      1.      1.      1       -  1.      1.      1.      1.              1.      1.      1.      1       -  1.      1.      1.      1.              1.      1.      1.      1       -  1.      1.      1.      1.              1.      1.      1.      1       -
+muoID_syst_              shape  1.      1.      1.      1.              1.      1.      1.      1       -   1.      1.      1.      1.              1.      1.      1.      1       -   1.      1.      1.      1.              1.      1.      1.      1       -   1.      1.      1.      1.              1.      1.      1.      1       - 
+topShape_syst_           shape  -       1.      1.      1.              1.      1.      1.      1.      -  -       1.      1.      1.              1.      1.      1.      1.      -  -       1.      1.      1.              1.      1.      1.      1.      -  -       1.      1.      1.              1.      1.      1.      1.      -

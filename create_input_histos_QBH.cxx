@@ -17,24 +17,27 @@
 #include "TString.h"
 #include "TGraphErrors.h"
 #include "TIterator.h"
+#include <cstring>
+#include <string>
 
 //using namespace RooFit ;
 using namespace std;
 bool debug = 0;
 
-void create_input_histos_QBH(){
-  std::cout << "Starting .... " << std::endl;
+void create_input_histos_QBH(int stage){
+  std::cout << "Starting .... " ;
+  std::cout << " stage " << stage << std::endl; 
   TFile* infile; 
 
   TString rootfilenames[] = {
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/ttbar_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/WW_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/SingleTop_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/DY_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/WZ_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/ZZ_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/Wgamma.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/Bkg_DataDriven_MuJet.root"
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v2/ttbar_tot.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v2/WW_tot.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v2/SingleTop_tot.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v2/DY_tot.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v2/WZ_tot.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v2/ZZ_tot.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v2/Wgamma.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v2/Bkg_DataDriven_MuJet.root"
 };
 
   TString sample_names[] = {"TT_tot","WW_tot","single_top_tot","DY_tot","WZ_tot","ZZ_tot","Wgamma","datadriven"};
@@ -48,18 +51,23 @@ void create_input_histos_QBH(){
  
   Char_t filename_sig[400];
   Char_t file_title[400];
-  Char_t dir_title[400];  
+  Char_t file_title1[400];
+  Char_t dir_title[400];
+  Char_t dir_title1[400];
   Char_t dir_title_syst[400];  
 
   //outfile for all histos
-  TFile *outfile = new TFile("root_out/out.root","recreate");
-
+  
+  sprintf(file_title1,"root_out/out_Stage%i.root", stage);
+  sprintf(dir_title1,"txt_out/normalization_Stage%i.txt", stage);
+  TFile *outfile = new TFile(file_title1,"recreate");
+  
   //outfile for all text to be used as input for the limit cfgs
   ofstream myfile;
-  myfile.open ("txt_out/normalization.txt");
-
+  myfile.open (dir_title1);
+  
   if (debug) std::cout << "will start initializer loop" << std::endl;
-
+  
   //
   //  PDF Systematics
   //
@@ -96,7 +104,7 @@ void create_input_histos_QBH(){
 
   //////////////////////////////////////
   //              UPDATE              //
-  double Lumi_bkg = (12400.0/1000.0);
+  double Lumi_bkg = (6320.0/1000.0);
   std::cout << "Lumi scale factor for bkg : " << Lumi_bkg << std::endl;
   /////////////////////////////////////
   
@@ -111,9 +119,10 @@ void create_input_histos_QBH(){
     //TAG change to one input file per bkg
     TH1D* hist_ori;
     //    cout << ((TString)(sample_names[i]) + "_7_0/"+(TString)(sample_names[i])+ "_ori").Data() << endl;
-    if (debug) std::cout << "will get the hist h1_0_emu_Mass"<< std::endl;
-    
-    hist_ori=(TH1D*)infile->Get("emu/Stage_0/h1_0_emu_Mass");
+    if (debug) std::cout << "will get the hist h1_2_emu_Mass"<< std::endl;
+    char name1[100]; 
+    sprintf (name1, "emu/Stage_%i/h1_%i_emu_Mass", stage, stage); 
+    hist_ori=(TH1D*)infile->Get(name1);
     if (sample_names[i] != "datadriven")  hist_ori->Scale(Lumi_bkg);
     if (sample_names[i]=="TT_tot") {
       std::cout << "Extra k-factor scaling will be done for TTbar background" << std::endl;
@@ -179,11 +188,16 @@ void create_input_histos_QBH(){
 	  
 	  //hist_syst_up=(TH1F*)infile->Get(((TString)(sample_names[i]) + "_7_0/"+(TString)(sample_names[i])+ "_" + syst_names[k] + "Up").Data());
 	  if (debug) std::cout << "will get syst hist UP"<< std::endl;
-	  
-	  hist_syst_up   = (TH1D*)infile->Get("emu/Stage_0/sys/h1_0_emu_Mass_"+syst_names[k]+"Up");
+	  char name2[150]; 
+	  sprintf (name2, "emu/Stage_%i/sys/h1_%i_emu_Mass_", stage, stage);
+	  std::cout << name2 <<  std::endl;
+	  hist_syst_up   = (TH1D*)infile->Get(name2+syst_names[k]+"Up");
 	  std::cout << "Lumi scaling for " << sample_names[i] << " and " << syst_names[k] << " UP"  << std::endl;
 	  hist_syst_up->Scale(Lumi_bkg);
-	  hist_syst_down = (TH1D*)infile->Get("emu/Stage_0/sys/h1_0_emu_Mass_"+syst_names[k]+"Down");
+	  
+	  char name3[150]; 
+	  sprintf (name3, "emu/Stage_%i/sys/h1_%i_emu_Mass_", stage, stage);
+	  hist_syst_down = (TH1D*)infile->Get(name3+syst_names[k]+"Down");
 	  std::cout << "Lumi scaling for " << sample_names[i]  << " and " << syst_names[k] << " DOWN"  << std::endl;
 	  hist_syst_down->Scale(Lumi_bkg);
 	  hist_syst_up->SetName(sample_names[i]+"_"+syst_names[k]+"Up");
@@ -218,12 +232,14 @@ void create_input_histos_QBH(){
 
   //TAG get the file with the data histogram
   if (debug) std::cout << "will get data root file"<< std::endl;
-  TFile* data_file = new TFile("/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/allData.root");
+  TFile* data_file = new TFile("/net/scratch_cms/institut_3a/erdweg/public/2016_results/v2/allData.root");
   TH1D* data;
   //  data=(TH1F*)data_file->Get("h1_inv_mass_1mu_1tau_aligned_7_0");
   //if (debug) 
   std::cout << "will get data hist"<< std::endl;
-  data=(TH1D*)data_file->Get("emu/Stage_0/h1_0_emu_Mass"); 
+  char name4[100]; 
+  sprintf (name4, "emu/Stage_%i/h1_%i_emu_Mass", stage, stage);
+  data=(TH1D*)data_file->Get(name4); 
 
   outfile->cd();
   data->SetName("data_obs");
@@ -237,18 +253,18 @@ void create_input_histos_QBH(){
     "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-500_n1_RS-QBH_13TeV_P8-skimid5863.root",
     "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-1000_n1_RS-QBH_13TeV_P8-skimid5616.root",
     "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-1500_n1_RS-QBH_13TeV_P8-skimid5864.root",
-    //    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-2000_n1_RS-QBH_13TeV_P8-skimid5840.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-2000_n1_RS-QBH_13TeV_P8-skimid5840.root",
     "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-2500_n1_RS-QBH_13TeV_P8-skimid5551.root",
     "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-3000_n1_RS-QBH_13TeV_P8-skimid5848.root",
     "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-3500_n1_RS-QBH_13TeV_P8-skimid5610.root",
     "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-4000_n1_RS-QBH_13TeV_P8-skimid5847.root",
     "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-4500_n1_RS-QBH_13TeV_P8-skimid5673.root",
     "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-5000_n1_RS-QBH_13TeV_P8-skimid5861.root",
-    //  "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-5500_n1_RS-QBH_13TeV_P8-skimid5676.root",
-    //  "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-6000_n1_RS-QBH_13TeV_P8-skimid5844.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-5500_n1_RS-QBH_13TeV_P8-skimid5676.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-6000_n1_RS-QBH_13TeV_P8-skimid5844.root",
   };
 
-  std::string sample_names_sig[] = {"500", "1000", "1500", "2500", "3000", "3500", "4000", "4500", "5000"};
+  std::string sample_names_sig[] = {"500", "1000", "1500", "2000", "2500", "3000", "3500", "4000", "4500", "5000", "5500", "6000"};
   //std::string sample_names_sig[] = {"5000"};
   const int arraySize_sig = sizeof(sample_names_sig)/sizeof(sample_names_sig[0]);
 
@@ -262,8 +278,8 @@ void create_input_histos_QBH(){
     //   TFile* infile_sig = new TFile(rootfilenames_sig[k]);
 
     TH1D* signal_temp;
-    sprintf(file_title,"root_out/out_mass_%s.root",sample_names_sig[k].c_str());
-    sprintf(dir_title,"txt_out/normalization_Mass_%s_input_histos.txt",sample_names_sig[k].c_str());
+    sprintf(file_title,"root_out/out_mass_%s_Stage%i.root",sample_names_sig[k].c_str(), stage);
+    sprintf(dir_title,"txt_out/normalization_Mass_%s_Stage%i_input_histos.txt",sample_names_sig[k].c_str(), stage);
     ofstream myfile_temp;
     myfile_temp.open(dir_title);
     TFile* outfile_signal = new TFile(file_title,"recreate");
@@ -296,8 +312,9 @@ void create_input_histos_QBH(){
 	delete h1;
 
       }
-    
-      signal_temp=(TH1D*)infile_sig_all->Get("emu/Stage_0/h1_0_emu_Mass");
+      char name5[100]; 
+      sprintf (name5, "emu/Stage_%i/h1_%i_emu_Mass", stage, stage);
+      signal_temp=(TH1D*)infile_sig_all->Get(name5);
       //std::cout << "Nbin = " << signal_temp->GetXaxis()->GetNbins() << std::endl;
       std::cout << "signal mass: " << sample_names_sig[k] << " Nevt="  << signal_temp->Integral(1,10000)  << "  Mass resolution = " << signal_temp->GetRMS() << std::endl;
       signal_temp->Scale(Lumi_bkg);
@@ -312,10 +329,15 @@ void create_input_histos_QBH(){
 	{
 	  TH1D* sig_hist_syst_up;
 	  TH1D* sig_hist_syst_down;
-	  sig_hist_syst_up   = (TH1D*)infile_sig_all->Get("emu/Stage_0/sys/h1_0_emu_Mass_"+syst_names_sig[kk]+"Up");
+	  char name6[150]; 
+	  sprintf (name6, "emu/Stage_%i/sys/h1_%i_emu_Mass_", stage, stage);
+	  sig_hist_syst_up   = (TH1D*)infile_sig_all->Get(name6+syst_names_sig[kk]+"Up");
 	  //std::cout << "Lumi scaling for " << sample_names_sig[k] << " and " << syst_names_sig[kk] << " UP"  << std::endl;
 	  sig_hist_syst_up->Scale(Lumi_bkg);
-	  sig_hist_syst_down = (TH1D*)infile_sig_all->Get("emu/Stage_0/sys/h1_0_emu_Mass_"+syst_names_sig[kk]+"Down");
+
+	  char name7[150]; 
+	  sprintf (name7, "emu/Stage_%i/sys/h1_%i_emu_Mass_", stage, stage);
+	  sig_hist_syst_down = (TH1D*)infile_sig_all->Get(name7+syst_names_sig[kk]+"Down");
 	  // std::cout << "Lumi scaling for " << sample_names_sig[k]  << " and " << syst_names_sig[kk] << " DOWN"  << std::endl;
 	  sig_hist_syst_down->Scale(Lumi_bkg);
 	  sig_hist_syst_up->SetName("signal_"+syst_names_sig[kk]+"Up");
