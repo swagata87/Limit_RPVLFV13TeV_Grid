@@ -20,9 +20,9 @@ fi
 echo "MAKE sure that you edited the input datacard correctly, which is used as input for the limit calculation!!!!!"
 sleep 5
 
-mass_min=500
-mass_max=1000
-mass_binning=500
+mass_min=600
+mass_max=1900
+mass_binning=100
 
 ./create_input_dirs_CategoryCombined.sh $3 ${mass_min} ${mass_max} ${mass_binning} 4
 
@@ -226,6 +226,6 @@ then
     rm -f nohup.out
 fi
 
-#rm -rf $3/input_masses_comb/
+rm -rf $3/input_masses_comb/
 
 exit

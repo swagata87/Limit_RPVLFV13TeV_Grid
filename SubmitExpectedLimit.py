@@ -17,7 +17,7 @@ def makeExe(user):
 echo Copying 1st pack...
   success=false
     for i in {1..2}; do
-       if srmcp gsiftp://grid-se114.physik.rwth-aachen.de:2811/pnfs/physik.rwth-aachen.de/cms/store/user/swmukher/LimitRPVTest2015/dptaumu/HiggsAnalysis.tar  file:///.; then
+       if srmcp gsiftp://grid-se114.physik.rwth-aachen.de:2811/pnfs/physik.rwth-aachen.de/cms/store/user/swmukher/EMU2016/HiggsAnalysis.tar  file:///.; then
           success=true
           break
        fi
@@ -29,7 +29,7 @@ echo Copying 1st pack...
 echo Copying 2nd pack...
   success=false
     for i in {1..2}; do
-       if srmcp gsiftp://grid-se114.physik.rwth-aachen.de:2811/pnfs/physik.rwth-aachen.de/cms/store/user/swmukher/LimitRPVTest2015/dptaumu/workdir.tar  file:///.; then
+       if srmcp gsiftp://grid-se114.physik.rwth-aachen.de:2811/pnfs/physik.rwth-aachen.de/cms/store/user/swmukher/EMU2016/workdir.tar  file:///.; then
           success=true
           break
        fi
@@ -66,43 +66,8 @@ tar -xvf workdir.tar
 ij=$2
 mass=$1
 
-cd workdir/output_masses_deltaPhiMETTau_2.000000/Mass_${mass}_output/
-
-if [ "${mass}" -le 1000 ] ;  then
-  combine -M MarkovChainMC -H ProfileLikelihood EmuSpectrum_datacard.txt --tries 25 -t 10 -s -1
-elif [[ "${mass}" -gt 1000 && "${mass}" -le 1200 ]] ;  then
-  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 25 -t 10 -s -1 --rMax 0.03
-elif [[ "${mass}" -gt 1200 && "${mass}" -le 1400 ]] ;  then
-  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 25 -t 10 -s -1 --rMax 0.05
-elif [[ "${mass}" -gt 1400 && "${mass}" -le 1600 ]] ;  then
-  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 25 -t 10 -s -1 --rMax 0.09
-elif [[ "${mass}" -gt 1600 && "${mass}" -le 1800 ]] ;  then
-  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 25 -t 10 -s -1 --rMax 0.15
-elif [[ "${mass}" -gt 1800 && "${mass}" -le 2000 ]] ;  then
-  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 25 -t 10 -s -1 --rMax 0.3
-elif [[ "${mass}" -gt 2000 && "${mass}" -le 2200 ]] ;  then
-  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 25 -t 10 -s -1 --rMax 0.5
-elif [[ "${mass}" -gt 2200 && "${mass}" -le 2400 ]] ;  then
-  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 25 -t 10 -s -1 --rMax 0.8
-elif [[ "${mass}" -gt 2400 && "${mass}" -le 2600 ]] ;  then
-  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 25 -t 10 -s -1 --rMax 1.2
-elif [[ "${mass}" -gt 2600 && "${mass}" -le 2800 ]] ;  then
-  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 25 -t 10 -s -1 --rMax 2.0
-elif [[ "${mass}" -gt 2800 && "${mass}" -le 3000 ]] ;  then
-  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 25 -t 10 -s -1 --rMax 3.5
-elif [[ "${mass}" -gt 3000 && "${mass}" -le 3200 ]] ;  then
-  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 25 -t 10 -s -1 --rMax 5.5
-elif [[ "${mass}" -gt 3200 && "${mass}" -le 3400 ]] ;  then
-  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 25 -t 10 -s -1 --rMax 9.5
-elif [[ "${mass}" -gt 3400 && "${mass}" -le 3600 ]] ;  then
-  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 25 -t 10 -s -1 --rMax 14.5
-elif [[ "${mass}" -gt 3600 && "${mass}" -le 3800 ]] ;  then
-  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 25 -t 10 -s -1 --rMax 23.5
-elif [[ "${mass}" -gt 3800 && "${mass}" -le 4000 ]] ;  then                                                                                                  
-  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 25 -t 10 -s -1 --rMax 40.0                          
-else
-  echo "Wrong mass value"
-fi
+cd workdir/output_masses/Mass_${mass}_Stage_0_output/
+combine -M MarkovChainMC -H ProfileLikelihood EmuSpectrum_datacard.txt --tries 25 -t 10 -s -1                                                                    
 
 ls -ltr
 mv higgsCombineTest*.root  higgs.root
@@ -162,26 +127,36 @@ def main():
 
 
     sampleList={
-#    "200":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
+#    "500":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
 #    "200":["1","2","3","4"],    
 #    "300":["1","2","3"],
 #    "1600":["1","2","3"]
-    "300":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
+#    "300":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
   #  "400":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
-  #  "500":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
+     "500":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
+#     "500":["1","2","3","4","5","6","7","8","9","10"],
   #  "600":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
   #  "700":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
   #  "800":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
   #  "900":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
   #  "900":["1","2","3","4"],
-  #  "1000":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
+    "1000":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
+    "1500":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
+    "2500":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
+    "3000":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
+    "3500":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
+    "4000":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
+    "4500":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
+    "5000":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
+#    "1000":["1","2","3","4","5","6","7","8","9","10"],
   #  "1000":["1","2","3","4"],
   #  "1200":["1","2","3","4"],
   #  "1400":["1","2","3","4"],
-    "1600":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
+ #   "1600":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
  #   "2000":["1","2","3","4"],
  #   "3000":["1","2","3","4"],
-    "3500":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"]
+#    "3500":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"],
+#    "3500":["1","2","3","4","5","6","7","8","9","10"],
  #   "4000":["1","2","3","4"]
     }    
 
