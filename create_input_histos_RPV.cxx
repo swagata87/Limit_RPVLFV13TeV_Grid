@@ -28,16 +28,16 @@ bool debug = 0;
 void create_input_histos_RPV(int stage){
   std::cout << "Starting .... " << std::endl;
   TFile* infile; 
-  ///net/scratch_cms/institut_3a/mukherjee/EMULimitJan20
+  ///net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v1
   TString rootfilenames[] = {
-    "/net/scratch_cms/institut_3a/mukherjee/EMULimitJan20/ttbar_tot.root",
-    "/net/scratch_cms/institut_3a/mukherjee/EMULimitJan20/WW_tot.root",
-    "/net/scratch_cms/institut_3a/mukherjee/EMULimitJan20/SingleTop_tot.root",
-    "/net/scratch_cms/institut_3a/mukherjee/EMULimitJan20/DY_tot.root",
-    "/net/scratch_cms/institut_3a/mukherjee/EMULimitJan20/WZ_tot.root",
-    "/net/scratch_cms/institut_3a/mukherjee/EMULimitJan20/ZZ_tot.root",
-    "/net/scratch_cms/institut_3a/mukherjee/EMULimitJan20/Wgamma.root",
-    "/net/scratch_cms/institut_3a/mukherjee/EMULimitJan20/Bkg_DataDriven_MuJet.root"
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v1/ttbar_tot.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v1/WW_tot.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v1/SingleTop_tot.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v1/DY_tot.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v1/WZ_tot.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v1/ZZ_tot.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v1/Wgamma.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v1/Bkg_DataDriven_MuJet.root"
 };
 
   //TString sample_names[] = {"TT_tot","WW_tot","single_top_tot","WZ_tot","ZZ_tot","datadriven"};
@@ -45,7 +45,7 @@ void create_input_histos_RPV(int stage){
   const int arraySize = sizeof(sample_names)/sizeof(sample_names[0]);  
 
   //names of systematics for shape-based input
-  TString syst_names[] ={"pileup_syst_","eleID_syst_","Ele_syst_Scale","Muon_syst_Scale","Muon_syst_Resolution","muoID_syst_", "topShape_syst_"};
+  TString syst_names[] ={"pileup_syst_","eleID_syst_","Ele_syst_Scale","Muon_syst_Scale","Muon_syst_Resolution","muoID_syst_", "topShape_syst_", "PDF_syst_"};
   const int arraySize_systs = sizeof(syst_names)/sizeof(syst_names[0]);    
 
   std::cout << "No- of systematics " << arraySize_systs << "  No. of bkg MC samples " << arraySize << std::endl;
@@ -66,10 +66,10 @@ void create_input_histos_RPV(int stage){
   ofstream myfile;
   myfile.open (dir_title1);
 
-  double mass_min=200;
-  double mass_max=4000;
+  double mass_min=1700;
+  double mass_max=5000;
 
-  int step_size=200;
+  int step_size=100;
 
   int N_points=(int)(mass_max-mass_min)/(double)step_size;
 
@@ -347,7 +347,7 @@ void create_input_histos_RPV(int stage){
 
   //TAG get the file with the data histogram
   if (debug) std::cout << "will get data root file"<< std::endl;
-  TFile* data_file = new TFile("/net/scratch_cms/institut_3a/mukherjee/EMULimitJan20/allData.root");
+  TFile* data_file = new TFile("/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v1/allData.root");
   
   //TFile* data_file = new TFile("/net/scratch_cms/institut_3a/mukherjee/NewJson/allData.root");
   TH1D* data;
@@ -392,45 +392,45 @@ void create_input_histos_RPV(int stage){
 
   if (stage==0) {
     fit_acceff->SetParameter(0,-1.5304);
-    fit_acceff->SetParameter(1,0.0);  
-    fit_acceff->SetParameter(2,-1.1);
-    fit_acceff->SetParameter(3,9.1e-03);
-    fit_acceff->SetParameter(4,-1.0e-05);
+    fit_acceff->SetParameter(1,2.11e-02);  
+    fit_acceff->SetParameter(2,-1.12);
+    fit_acceff->SetParameter(3,9.12e-03);
+    fit_acceff->SetParameter(4,-1.02e-05);
   }
 
   if (stage==1) {
     fit_acceff->SetParameter(0,-0.1825);
-    fit_acceff->SetParameter(1,0.0);  
-    fit_acceff->SetParameter(2,-0.5);
-    fit_acceff->SetParameter(3,8.5e-03);
-    fit_acceff->SetParameter(4,-7.6e-05);
+    fit_acceff->SetParameter(1,2.99e-02);  
+    fit_acceff->SetParameter(2,-4.73e-01);
+    fit_acceff->SetParameter(3,8.50e-03);
+    fit_acceff->SetParameter(4,-7.60e-05);
   }
 
   if (stage==2) {
-    fit_acceff->SetParameter(0,-4.53);
-    fit_acceff->SetParameter(1,0.0);  
-    fit_acceff->SetParameter(2,-1.7);
-    fit_acceff->SetParameter(3,4.8e-03);
-    fit_acceff->SetParameter(4,-2.6e-05);
+    fit_acceff->SetParameter(0,-4.5305);
+    fit_acceff->SetParameter(1,2.29e-02);  
+    fit_acceff->SetParameter(2,-1.65);
+    fit_acceff->SetParameter(3,4.83e-03);
+    fit_acceff->SetParameter(4,-2.64e-05);
   }
 
   if (stage==3) {
     fit_acceff->SetParameter(0,-4.5342);
-    fit_acceff->SetParameter(1,0.0);  
+    fit_acceff->SetParameter(1,2.28e-02);  
     fit_acceff->SetParameter(2,-1.9);
-    fit_acceff->SetParameter(3,4.9e-03);
-    fit_acceff->SetParameter(4,-1.7e-05);
+    fit_acceff->SetParameter(3,4.93e-03);
+    fit_acceff->SetParameter(4,-1.66e-05);
   }
 
   if (stage==4) {
     fit_acceff_2->SetParameter(0,-4.5576);
-    fit_acceff_2->SetParameter(1,0.0);  
-    fit_acceff_2->SetParameter(2,-1.5);
-    fit_acceff_2->SetParameter(3,5.0e-03);
-    fit_acceff_2->SetParameter(4,1.4e-06);
-    fit_acceff_2->SetParameter(5,4.8);
-    fit_acceff_2->SetParameter(6,-2.4e+03);  
-    fit_acceff_2->SetParameter(7,1.1e+03);
+    fit_acceff_2->SetParameter(1,2.30e-02);  
+    fit_acceff_2->SetParameter(2,-1.48);
+    fit_acceff_2->SetParameter(3,5.01e-03);
+    fit_acceff_2->SetParameter(4,1.36e-06);
+    fit_acceff_2->SetParameter(5,4.80);
+    fit_acceff_2->SetParameter(6,-2.42e+03);  
+    fit_acceff_2->SetParameter(7,1.09e+03);
   }
  
   double acceff=0.7;
@@ -485,7 +485,7 @@ void create_input_histos_RPV(int stage){
 	acceff=fit_acceff->Eval(mass_sig);
       }
       else if (stage==4) {
-	acceff=fit_acceff_2->Eval(mass_sig);
+	acceff=0.03 ;//fit_acceff_2->Eval(mass_sig);
       }
       //   std::cout << "mass_sig=" << mass_sig << " abs resolution=" << resolution  << "  abs resolution_up="<< resolution_up  << "  abs resolution_down="  << resolution_down  <<std::endl;
       std::cout <<  mass_sig << " &  mass_res=" << (fit_resolution->Eval(mass_sig)) <<  "   &   acceff=" <<     acceff << " \\\\" << std::endl;
@@ -549,7 +549,7 @@ void create_input_histos_RPV(int stage){
       //set the signal PDFs here
 
       //TAG get signal cross section
-      sprintf(file_title,"LQD_01_LLE_01_MSnl_scale_down_%d",(int)mass_sig);
+      sprintf(file_title,"LQD_001_LLE_001_MSnl_scale_down_%d",(int)mass_sig);
       get_environment(file_title);
       xsec=BGcrosssection;
 
@@ -586,7 +586,7 @@ void create_input_histos_RPV(int stage){
       myfile << "signal syst " << mass_sig << " signal_Eff_systUp " << signal_temp_Eff_up->Integral(1,10000) << "\n";
 
       acceff_down=acceff-(acceff*0.1);
-      std::cout << "acceff=" << acceff << " acceff_up=" << acceff_up << " acceff_down=" << acceff_down  << std::endl;
+      //      std::cout << "acceff=" << acceff << " acceff_up=" << acceff_up << " acceff_down=" << acceff_down  << std::endl;
       gauss->SetParameter(0,mass_sig);
       gauss->SetParameter(1,resolution);
       signal_temp_Eff_down=new TH1D("signal_Eff_systDown","",10000,0.,10000.);

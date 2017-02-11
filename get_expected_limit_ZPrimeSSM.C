@@ -39,31 +39,33 @@ void get_expected_limit_ZPrimeSSM()
   Char_t file_title_3[200];
 
   int mass_min=600;
-  int mass_inter_0=2000;  
-  int mass_inter_1=3000;
-  int mass_inter_2=3500;  
-  int mass_inter_3=4000;
+  int mass_inter_0=1400;  
+  int mass_inter_1=1600;
+  int mass_inter_2=2000;  
+  int mass_inter_3=3000;
   int mass_inter_4=4500;
   int mass_max=5000;
 
   int binning_0=100;
   int binning_1=200;
-  int binning_2=500;
-  int binning_3=500;  
+  int binning_2=100;
+  int binning_3=200;  
   int binning_4=500;  
   int binning_5=500;
 
   ///// Expected Limit /////
   int mass_min_exp=600;
-  int mass_inter_0_exp=2000;
-  int mass_inter_1_exp=3000;
-  int mass_inter_2_exp=3500;
+  int mass_inter_0_exp=1400;
+  int mass_inter_1_exp=1600;
+  int mass_inter_2_exp=2000;
+  int mass_inter_3_exp=3000;
   int mass_max_exp=5000;
 
   int binning_0_exp=100;
   int binning_1_exp=200;
-  int binning_2_exp=500;
-  int binning_3_exp=500;
+  int binning_2_exp=100;
+  int binning_3_exp=200;
+  int binning_4_exp=500;
 
   //////////////////////////
 
@@ -230,7 +232,7 @@ void get_expected_limit_ZPrimeSSM()
       
       std::cout << "Mass " << mass << " Will access observed files" << std::endl;
       sprintf(mass_dir,"/merged/Mass%i.root",mass);   
-      TString basedir="/user/mukherjee/out/Jan_21_EMU2016_ZPrimeSSM_CategoryComb_Observed/";
+      TString basedir="/user/mukherjee/out/Feb10_ZPrime_S0_Observed";
       TString *massdir=new TString(mass_dir);
       TString filename_observed = basedir+*massdir;
       double limit;
@@ -317,7 +319,7 @@ void get_expected_limit_ZPrimeSSM()
       kM_exp=(BGcrosssection/0.4)*1./pow(0.1,2);
       
       sprintf(mass_dir_exp,"/merged/Mass%i.root",mass);   
-      TString basedir_exp="/user/mukherjee/out/Jan_21_EMU2016_ZPrimeSSM_CategoryComb/";
+      TString basedir_exp="/user/mukherjee/out/Feb10_ZPrime_S0_Expected";
       TString *massdir_exp=new TString(mass_dir_exp);
       TString filename=basedir_exp+*massdir_exp;
       
@@ -390,21 +392,20 @@ void get_expected_limit_ZPrimeSSM()
       // std::cout << "Mass " << mass <<  " " << xs_expected[counter_masses] << "=" << expected[counter_masses] << "*" <<xsec_NLO[counter_masses] << std::endl; 
 
       counter_masses_exp++;
-
+      
       if(mass<mass_inter_0_exp){mass+=binning_0_exp;}
       else { 
 	if(mass<mass_inter_1_exp) mass+=binning_1_exp;
 	else { 
 	  if(mass<mass_inter_2_exp)mass+=binning_2_exp;
-	  else mass+=binning_3_exp;
-	  //{
-	  //if(mass<mass_inter_3)mass+=binning_3;
-	  //else mass+=binning_4;
-	  //}
-	  //}
+	  else {
+	    if(mass<mass_inter_3_exp)mass+=binning_3_exp;
+	    else mass+=binning_4_exp;
+	  }
 	}
       }
     }
+
 
       
 
@@ -443,7 +444,7 @@ void get_expected_limit_ZPrimeSSM()
   graph_observed->GetYaxis()->SetRangeUser(0.1,10);
   //gPad->SetLogy();
     graph_observed->SetTitle("");
-    graph_observed->SetMarkerStyle(20);
+    graph_observed->SetMarkerStyle(0);
     graph_observed->SetMarkerSize(1.2);
     graph_observed->SetMarkerColor(1);
     graph_observed->SetLineColor(1);
@@ -457,7 +458,7 @@ void get_expected_limit_ZPrimeSSM()
     graph_expected->GetYaxis()->SetRangeUser(0.1,10);
     //gPad->SetLogy();
     graph_expected->SetTitle("");
-    graph_expected->SetMarkerStyle(20);
+    graph_expected->SetMarkerStyle(0);
     graph_expected->SetMarkerSize(0.8);
     graph_expected->SetMarkerColor(kBlack);
     graph_expected->SetLineColor(kBlack);
@@ -466,7 +467,7 @@ void get_expected_limit_ZPrimeSSM()
     //graph_expected->GetXaxis()->SetTitle("M_{#tilde{#nu_{#tau}}} [TeV]");
     //graph_expetced->GetYaxis()->SetTitle("#frac{#sigma_{95%CL}}{#sigma_{sig}}");    
 
-    //    graph_observed->Draw("Apc");  
+    graph_observed->Draw("Apc");  
     graph_expected->GetXaxis()->SetTitleFont(42);
     graph_expected->GetYaxis()->SetTitleFont(42);
     graph_expected->GetXaxis()->SetLabelFont(42);
@@ -520,7 +521,7 @@ void get_expected_limit_ZPrimeSSM()
     leg_example->SetFillColor(0);
     leg_example->SetTextFont(42);
     
-    leg_example->AddEntry(graph_observed, "observed limit","pl");
+     leg_example->AddEntry(graph_observed, "observed limit","pl");
     //   leg_example->AddEntry(graph_observed, "95% CL limit","pl"); 
     leg_example->AddEntry(graph_expected, "median expected limit","pl"); 
     leg_example->AddEntry(grshade_68, "68% expected","f");
@@ -546,7 +547,7 @@ void get_expected_limit_ZPrimeSSM()
     graph_observed->GetYaxis()->SetRangeUser(1,10000.);
     //gPad->SetLogy();
     graph_observed_total->SetTitle("");
-    graph_observed_total->SetMarkerStyle(20);
+    graph_observed_total->SetMarkerStyle(0);
     graph_observed_total->SetMarkerSize(1.2);
     graph_observed_total->SetMarkerColor(1);
     graph_observed_total->SetLineColor(1);
@@ -560,7 +561,7 @@ void get_expected_limit_ZPrimeSSM()
     graph_expected_total->GetYaxis()->SetRangeUser(0.01,10000.);
     //gPad->SetLogy();
     graph_expected_total->SetTitle("");
-    graph_expected_total->SetMarkerStyle(20);
+    graph_expected_total->SetMarkerStyle(0);
     graph_expected_total->SetMarkerSize(0.8);
     graph_expected_total->SetMarkerColor(kBlack);
     graph_expected_total->SetLineColor(kBlack);
@@ -569,7 +570,7 @@ void get_expected_limit_ZPrimeSSM()
     //graph_expected->GetXaxis()->SetTitle("M_{#tilde{#nu_{#tau}}} [TeV]");
     //graph_expetced->GetYaxis()->SetTitle("#frac{#sigma_{95%CL}}{#sigma_{sig}}");    
 
-    //   graph_observed->Draw("Apc");  
+    graph_observed->Draw("Apc");  
     graph_expected_total->GetXaxis()->SetTitleFont(42);
     graph_expected_total->GetYaxis()->SetTitleFont(42);
     graph_expected_total->GetXaxis()->SetLabelFont(42);
@@ -688,7 +689,7 @@ void get_expected_limit_ZPrimeSSM()
     leg_total->SetTextFont(42);
     leg_total->SetTextSize(0.032);    
     
-      leg_total->AddEntry(graph_observed, "observed limit","pl");
+     leg_total->AddEntry(graph_observed, "observed limit","pl");
     //  leg_total->AddEntry(graph_observed, "95% CL limit","pl"); 
     leg_total->AddEntry(graph_expected, "median expected limit","pl"); 
     leg_total->AddEntry(grshade_68, "68% expected","f");
@@ -714,11 +715,11 @@ void get_expected_limit_ZPrimeSSM()
     CMS_text->SetTextAngle(0);
     CMS_text->Draw("same");
 
-    TLatex* text_1 = new TLatex(0.45,0.70,"Combined");
+    TLatex* text_1 = new TLatex(0.45,0.70,"All");
     text_1->SetNDC();
     text_1->SetTextSize(0.04);
     text_1->SetTextAngle(0);
-    text_1->Draw("same");
+    //    text_1->Draw("same");
     
     TLatex* CMS_text_2 = new TLatex(0.45,0.83,"Preliminary");
     //TLatex* CMS_text_2 = new TLatex(0.20,0.83," ");
@@ -736,7 +737,7 @@ void get_expected_limit_ZPrimeSSM()
     lumiText->Draw("same");     
 
 
-  total->Print("limit.pdf");
+  total->Print("limit_zprime.pdf");
 
 }
 
