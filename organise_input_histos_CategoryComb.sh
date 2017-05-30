@@ -20,9 +20,9 @@ fi
 echo "MAKE sure that you edited the input datacard correctly, which is used as input for the limit calculation!!!!!"
 sleep 5
 
-mass_min=600
-mass_max=1900
-mass_binning=100
+mass_min=1800
+mass_max=4000
+mass_binning=200
 
 ./create_input_dirs_CategoryCombined.sh $3 ${mass_min} ${mass_max} ${mass_binning} 4
 

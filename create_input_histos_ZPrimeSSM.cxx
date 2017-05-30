@@ -30,21 +30,21 @@ void create_input_histos_ZPrimeSSM(int stage){
   TFile* infile; 
   ///net/scratch_cms/institut_3a/mukherjee/EMULimitJan20
   TString rootfilenames[] = {
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ttbar_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/WW_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/SingleTop_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/DY_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/WZ_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZZ_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/Wgamma.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/Bkg_DataDriven_MuJet.root"
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ttbar_tot.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/WW_tot.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/SingleTop_tot.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/DY_tot.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/WZ_tot.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZZ_tot.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/Wgamma.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/Bkg_DataDriven_MuJet.root"
 };
 
   TString sample_names[] = {"TT_tot","WW_tot","single_top_tot","DY_tot","WZ_tot","ZZ_tot","Wgamma","datadriven"};
   const int arraySize = sizeof(sample_names)/sizeof(sample_names[0]);  
 
   //names of systematics for shape-based input
-  TString syst_names[] ={"pileup_syst_","eleID_syst_","Ele_syst_Scale","Muon_syst_Scale","Muon_syst_Resolution","muoID_syst_", "topShape_syst_", "PDF_syst_"};
+  TString syst_names[] ={"pileup_syst_","eleID_syst_","Ele_syst_Scale","Muon_syst_Scale","Muon_syst_Resolution","muoID_syst_", "topShape_syst_", "PDF_syst_","wwShape_syst_"};
   const int arraySize_systs = sizeof(syst_names)/sizeof(syst_names[0]);    
 
   std::cout << "No- of systematics " << arraySize_systs << "  No. of bkg MC samples " << arraySize << std::endl;
@@ -104,7 +104,7 @@ void create_input_histos_ZPrimeSSM(int stage){
 
   //////////////////////////////////////
   //              UPDATE              //
-  double Lumi_bkg = (36458.8/1000.0);
+  double Lumi_bkg = (35866.7/1000.0);
   std::cout << "Lumi scale factor for bkg : " << Lumi_bkg << std::endl;
   /////////////////////////////////////
   
@@ -232,7 +232,7 @@ void create_input_histos_ZPrimeSSM(int stage){
 
   //TAG get the file with the data histogram
   if (debug) std::cout << "will get data root file"<< std::endl;
-  TFile* data_file = new TFile("/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/allData.root");
+  TFile* data_file = new TFile("/net/scratch_cms3a/erdweg/public/2016_results/May/allData.root");
   TH1D* data;
   //  data=(TH1F*)data_file->Get("h1_inv_mass_1mu_1tau_aligned_7_0");
   //if (debug) 
@@ -250,30 +250,30 @@ void create_input_histos_ZPrimeSSM(int stage){
 
   TFile* infile_sig_all;
   TString rootfilenames_sig_all[] = {
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_600_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_700_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_800_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_900_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_1000_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_1100_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_1200_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_1300_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_1400_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_1500_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_1600_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_1700_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_1800_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_1900_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_2000_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_2200_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_2400_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_2600_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_2800_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_3000_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_3500_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_4000_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_4500_13TeV_P8.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v3/ZPrimeToEMu_M_5000_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_600_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_700_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_800_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_900_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_1000_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_1100_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_1200_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_1300_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_1400_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_1500_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_1600_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_1700_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_1800_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_1900_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_2000_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_2200_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_2400_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_2600_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_2800_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_3000_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_3500_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_4000_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_4500_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_5000_13TeV_P8.root",
   };
 
   std::string sample_names_sig[] = {"600", "700", "800", "900", "1000", "1100", "1200", "1300", "1400", "1500", "1600", "1700", "1800", "1900", "2000", "2200", "2400", "2600", "2800", "3000", "3500", "4000", "4500", "5000"};

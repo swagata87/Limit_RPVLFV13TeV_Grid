@@ -30,14 +30,14 @@ void create_input_histos_RPV(int stage){
   TFile* infile; 
   ///net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v1
   TString rootfilenames[] = {
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v1/ttbar_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v1/WW_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v1/SingleTop_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v1/DY_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v1/WZ_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v1/ZZ_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v1/Wgamma.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v1/Bkg_DataDriven_MuJet.root"
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ttbar_tot.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/WW_tot.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/SingleTop_tot.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/DY_tot.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/WZ_tot.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZZ_tot.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/Wgamma.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/May/Bkg_DataDriven_MuJet.root"
 };
 
   //TString sample_names[] = {"TT_tot","WW_tot","single_top_tot","WZ_tot","ZZ_tot","datadriven"};
@@ -45,7 +45,7 @@ void create_input_histos_RPV(int stage){
   const int arraySize = sizeof(sample_names)/sizeof(sample_names[0]);  
 
   //names of systematics for shape-based input
-  TString syst_names[] ={"pileup_syst_","eleID_syst_","Ele_syst_Scale","Muon_syst_Scale","Muon_syst_Resolution","muoID_syst_", "topShape_syst_", "PDF_syst_"};
+  TString syst_names[] ={"pileup_syst_","eleID_syst_","Ele_syst_Scale","Muon_syst_Scale","Muon_syst_Resolution","muoID_syst_", "topShape_syst_", "PDF_syst_","wwShape_syst_"};
   const int arraySize_systs = sizeof(syst_names)/sizeof(syst_names[0]);    
 
   std::cout << "No- of systematics " << arraySize_systs << "  No. of bkg MC samples " << arraySize << std::endl;
@@ -67,7 +67,7 @@ void create_input_histos_RPV(int stage){
   myfile.open (dir_title1);
 
   double mass_min=1700;
-  double mass_max=5000;
+  double mass_max=6500;
 
   int step_size=100;
 
@@ -213,7 +213,7 @@ void create_input_histos_RPV(int stage){
 
   //////////////////////////////////////
   //              UPDATE              //
-  double Lumi_bkg = (36458.8/1000.0);
+  double Lumi_bkg = (35900.8/1000.0);
   std::cout << "Lumi scale factor for bkg : " << Lumi_bkg << std::endl;
   /////////////////////////////////////
   
@@ -347,7 +347,7 @@ void create_input_histos_RPV(int stage){
 
   //TAG get the file with the data histogram
   if (debug) std::cout << "will get data root file"<< std::endl;
-  TFile* data_file = new TFile("/net/scratch_cms/institut_3a/erdweg/public/2016_results/Feb_v1/allData.root");
+  TFile* data_file = new TFile("/net/scratch_cms3a/erdweg/public/2016_results/May/allData.root");
   
   //TFile* data_file = new TFile("/net/scratch_cms/institut_3a/mukherjee/NewJson/allData.root");
   TH1D* data;

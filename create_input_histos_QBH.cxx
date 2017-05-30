@@ -30,21 +30,21 @@ void create_input_histos_QBH(int stage){
   TFile* infile; 
 
   TString rootfilenames[] = {
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v2/ttbar_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v2/WW_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v2/SingleTop_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v2/DY_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v2/WZ_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v2/ZZ_tot.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v2/Wgamma.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v2/Bkg_DataDriven_MuJet.root"
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/ttbar_tot.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/WW_tot.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/SingleTop_tot.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/DY_tot.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/WZ_tot.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/ZZ_tot.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/Wgamma.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/Bkg_DataDriven_MuJet.root"
 };
 
   TString sample_names[] = {"TT_tot","WW_tot","single_top_tot","DY_tot","WZ_tot","ZZ_tot","Wgamma","datadriven"};
   const int arraySize = sizeof(sample_names)/sizeof(sample_names[0]);  
 
   //names of systematics for shape-based input
-  TString syst_names[] ={"pileup_syst_","eleID_syst_","Ele_syst_Scale","Muon_syst_Scale","Muon_syst_Resolution","muoID_syst_", "topShape_syst_"};
+  TString syst_names[] ={"pileup_syst_","eleID_syst_","Ele_syst_Scale","Muon_syst_Scale","Muon_syst_Resolution","muoID_syst_", "topShape_syst_", "PDF_syst_","wwShape_syst_"};
   const int arraySize_systs = sizeof(syst_names)/sizeof(syst_names[0]);    
 
   std::cout << "No- of systematics " << arraySize_systs << "  No. of bkg MC samples " << arraySize << std::endl;
@@ -104,7 +104,7 @@ void create_input_histos_QBH(int stage){
 
   //////////////////////////////////////
   //              UPDATE              //
-  double Lumi_bkg = (6320.0/1000.0);
+  double Lumi_bkg = (36458.8/1000.0);
   std::cout << "Lumi scale factor for bkg : " << Lumi_bkg << std::endl;
   /////////////////////////////////////
   
@@ -232,7 +232,7 @@ void create_input_histos_QBH(int stage){
 
   //TAG get the file with the data histogram
   if (debug) std::cout << "will get data root file"<< std::endl;
-  TFile* data_file = new TFile("/net/scratch_cms/institut_3a/erdweg/public/2016_results/v2/allData.root");
+  TFile* data_file = new TFile("/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/allData.root");
   TH1D* data;
   //  data=(TH1F*)data_file->Get("h1_inv_mass_1mu_1tau_aligned_7_0");
   //if (debug) 
@@ -250,21 +250,22 @@ void create_input_histos_QBH(int stage){
 
   TFile* infile_sig_all;
   TString rootfilenames_sig_all[] = {
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-500_n1_RS-QBH_13TeV_P8-skimid5863.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-1000_n1_RS-QBH_13TeV_P8-skimid5616.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-1500_n1_RS-QBH_13TeV_P8-skimid5864.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-2000_n1_RS-QBH_13TeV_P8-skimid5840.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-2500_n1_RS-QBH_13TeV_P8-skimid5551.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-3000_n1_RS-QBH_13TeV_P8-skimid5848.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-3500_n1_RS-QBH_13TeV_P8-skimid5610.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-4000_n1_RS-QBH_13TeV_P8-skimid5847.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-4500_n1_RS-QBH_13TeV_P8-skimid5673.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-5000_n1_RS-QBH_13TeV_P8-skimid5861.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-5500_n1_RS-QBH_13TeV_P8-skimid5676.root",
-    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/v1/QBHToEMu_M-6000_n1_RS-QBH_13TeV_P8-skimid5844.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/QBHToEMu_M-500_n1_RS-QBH_13TeV_P8.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/QBHToEMu_M-1000_n1_RS-QBH_13TeV_P8.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/QBHToEMu_M-1500_n1_RS-QBH_13TeV_P8.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/QBHToEMu_M-2000_n1_RS-QBH_13TeV_P8.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/QBHToEMu_M-2500_n1_RS-QBH_13TeV_P8.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/QBHToEMu_M-3000_n1_RS-QBH_13TeV_P8.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/QBHToEMu_M-3500_n1_RS-QBH_13TeV_P8.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/QBHToEMu_M-4000_n1_RS-QBH_13TeV_P8.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/QBHToEMu_M-4500_n1_RS-QBH_13TeV_P8.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/QBHToEMu_M-5000_n1_RS-QBH_13TeV_P8.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/QBHToEMu_M-5500_n1_RS-QBH_13TeV_P8.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/QBHToEMu_M-6000_n1_RS-QBH_13TeV_P8.root",
+    "/net/scratch_cms/institut_3a/erdweg/public/2016_results/May/QBHToEMu_M-6500_n1_RS-QBH_13TeV_P8.root",
   };
 
-  std::string sample_names_sig[] = {"500", "1000", "1500", "2000", "2500", "3000", "3500", "4000", "4500", "5000", "5500", "6000"};
+  std::string sample_names_sig[] = {"500", "1000", "1500", "2000", "2500", "3000", "3500", "4000", "4500", "5000", "5500", "6000", "6500"};
   //std::string sample_names_sig[] = {"5000"};
   const int arraySize_sig = sizeof(sample_names_sig)/sizeof(sample_names_sig[0]);
 

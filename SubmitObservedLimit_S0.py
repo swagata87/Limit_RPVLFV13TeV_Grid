@@ -29,7 +29,7 @@ echo Copying 1st pack...
 echo Copying 2nd pack...
   success=false
     for i in {1..2}; do
-       if srmcp gsiftp://grid-ftp.physik.rwth-aachen.de:2811/pnfs/physik.rwth-aachen.de/cms/store/user/swmukher/EMU2016/workdir.tar  file:///.; then                                             
+       if srmcp gsiftp://grid-ftp.physik.rwth-aachen.de:2811/pnfs/physik.rwth-aachen.de/cms/store/user/swmukher/EMU2016/workdir_r.tar  file:///.; then                                             
           success=true
           break
        fi
@@ -59,39 +59,19 @@ cd ..
 cd ..
 
 echo "------------------"
-echo "Will extract workdir tar file"
+echo "Will extract workdir_r tar file"
 echo "------------------"
 
-tar -xvf workdir.tar
+tar -xvf workdir_r.tar
 mass=$1
 
-cd workdir/output_masses/Mass_${mass}_Stage_0_output/                                                                                                                
-                            
-combine -M MarkovChainMC -H ProfileLikelihood EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed  --noDefaultPrior 0 
+cd workdir_r/output_masses/Mass_${mass}_Stage_0_output/                                                                                                                                            
 
+combine -M MarkovChainMC -H ProfileLikelihood EmuSpectrum_datacard.txt --tries 200  -s -1 -m 50 -n observed --noDefaultPrior 0
 
-## ONLY for RPV
-#if [ "${mass}" -le 200 ] ;
-#  then
-#  combine -M MarkovChainMC EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --setPhysicsModelParameters r=0.01 --setPhysicsModelParameterRanges r=0,0.03  --noDefaultPrior 0
-#elif [[ "${mass}" -gt 200 && "${mass}" -le 300 ]] ;
-#  then
-#  combine -M MarkovChainMC EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --setPhysicsModelParameters r=0.01 --setPhysicsModelParameterRanges r=0,0.04  --noDefaultPrior 0
-#elif [[ "${mass}" -gt 300 && "${mass}" -le 360 ]] ;
-#  then
-#  combine -M MarkovChainMC EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --setPhysicsModelParameters r=0.01 --setPhysicsModelParameterRanges r=0,0.05  --noDefaultPrior 0
-#elif [[ "${mass}" -gt 4900 && "${mass}" -le 5000 ]] ;
-#  then
-#  combine -M MarkovChainMC EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --setPhysicsModelParameters r=2000 --setPhysicsModelParameterRanges r=1500,3000  --noDefaultPrior 0
-#else 
-#  combine -M MarkovChainMC -H ProfileLikelihood EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed  --noDefaultPrior 0
-#fi
-
-
-## RMAX NOT required for 2016 anymore
 #if [ "${mass}" -le 1000 ] ;
 #  then
-#  combine -M MarkovChainMC -H ProfileLikelihood EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed  --noDefaultPrior 0
+#  combine -M MarkovChainMC -H ProfileLikelihood EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --noDefaultPrior 0
 #elif [[ "${mass}" -gt 1000 && "${mass}" -le 1200 ]] ;
 #  then
 #  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 0.03  --noDefaultPrior 0
@@ -106,7 +86,7 @@ combine -M MarkovChainMC -H ProfileLikelihood EmuSpectrum_datacard.txt --tries 1
 #  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 0.15  --noDefaultPrior 0
 #elif [[ "${mass}" -gt 1800 && "${mass}" -le 2000 ]] ;
 #  then
-#  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 0.3   --noDefaultPrior 0
+#  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 0.3  --noDefaultPrior 0
 #elif [[ "${mass}" -gt 2000 && "${mass}" -le 2200 ]] ;
 #  then
 #  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 0.5  --noDefaultPrior 0
@@ -139,7 +119,7 @@ combine -M MarkovChainMC -H ProfileLikelihood EmuSpectrum_datacard.txt --tries 1
 #  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 40.0  --noDefaultPrior 0
 #elif [[ "${mass}" -gt 4000 && "${mass}" -le 5200 ]] ;                                                            
 #  then                                                                                                          
-#  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 400.0  --noDefaultPrior 0
+#  combine -M MarkovChainMC  EmuSpectrum_datacard.txt --tries 100  -s -1 -m 50 -n observed --rMax 200.0  --noDefaultPrior 0
 #else
 #  echo "Wrong mass value"
 #fi
@@ -153,7 +133,7 @@ cp outfile.tar.gz ../../../
    
 ls -ltr
 
-####lcg-cp file:///`pwd`/higgs_Mass${mass}_observed.root   srm://grid-srm.physik.rwth-aachen.de:8443/pnfs/physik.rwth-aachen.de/cms/store/user/swmukher/LimitRPVTest2015/workdir/output_masses/Mass_${mass}_output/observed.root
+####lcg-cp file:///`pwd`/higgs_Mass${mass}_observed.root   srm://grid-srm.physik.rwth-aachen.de:8443/pnfs/physik.rwth-aachen.de/cms/store/user/swmukher/LimitRPVTest2015/workdir_r/output_masses/Mass_${mass}_output/observed.root
 
 """
 
@@ -202,9 +182,9 @@ def main():
         sys.exit( err.errno )
 
 
-    sampleList={"600","700","800","900","1000","1100","1200","1300","1400","1500","1600","1700","1800","1900","2000","2200","2400","2600","2800","3000","3500","4000","4500","5000"}
-
-#    sampleList={"200","220","240","260","280","300","320","340","360","380","400","420","440","460","480","500","520","540","560","580","600","620","640","660","680","700","720","740","760","780","800","820","840","860","880","900","920","940","960","980","1000","1020","1040","1060","1080","1100","1120","1140","1160","1180","1200","1220","1240","1260","1280","1300","1320","1340","1360","1380","1400","1420","1440","1460","1480","1500","1520","1540","1560","1580","1600","1620","1640","1660","1680","1700","1800","1900","2000","2100","2200","2300","2400","2500","2600","2700","2800","2900","3000","3100","3200","3300","3400","3500","3600","3700","3800","3900","4000","4100","4200","4300","4400","4500","4600","4700","4800","4900","5000"}    
+#    sampleList={"600","700","800","900","1000","1100","1200","1300","1400","1500","1600","1700","1800","1900","2000","2200","2400","2600","2800","3000","3500","4000","4500","5000"}    
+ #   sampleList={"500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500"}    
+    sampleList={"200","220","240","260","280","300","320","340","360","380","400","420","440","460","480","500","520","540","560","580","600","620","640","660","680","700","720","740","760","780","800","820","840","860","880","900","920","940","960","980","1000","1020","1040","1060","1080","1100","1120","1140","1160","1180","1200","1220","1240","1260","1280","1300","1320","1340","1360","1380","1400","1420","1440","1460","1480","1500","1520","1540","1560","1580","1600","1620","1640","1660","1680","1700","1800","1900","2000","2100","2200","2300","2400","2500","2600","2700","2800","2900","3000","3100","3200","3300","3400","3500","3600","3700","3800","3900","4000","4100","4200","4300","4400","4500","4600","4700","4800","4900","5000","5100","5200","5300","5400","5500","5600","5700","5800","5900","6000","6500"}
 
     makeExe(options.user)
 

@@ -17,7 +17,8 @@ process                         0       1       2       3               4       
 --------------------------------
 rate @rates@
 --------------------------------
-lumi			 lnN	1.062	1.062	1.062	1.062	        1.062	1.062	1.062	1.062   -
+#lumi			 lnN	1.005	1.005	1.005	1.005	        1.005	1.005	1.005	1.005   1.005
+lumi			 lnN	1.025	1.025	1.025	1.025	        1.025	1.025	1.025	1.025   -
 xsec			 lnN	-	1.05	1.04	1.05	        1.05	1.05	1.05	1.50    -
 fakerate                 lnN    -       -       -       -               -       -       -       -       1.50 	
 acceff                   lnN    1.10    -       -       -               -       -       -       -       - 
@@ -28,5 +29,6 @@ pileup_syst_             shape  -       1.      1.      1.              1.      
 eleID_syst_              shape  -       1.      1.      1.              1.      1.      1.      1       -
 muoID_syst_              shape  -       1.      1.      1.              1.      1.      1.      1       - 
 topShape_syst_           shape  -       1.      1.      1.              1.      1.      1.      1.      -
-####pdf_syst                 shape  -       1.      1.      1.              1.      1.      1.      1       - 
-####massRes_syst             shape  1.      -       -       -               -       -       -       -       -   
+PDF_syst_                shape  -       1.      1.      1.              1.      1.      1.      1       - 
+wwShape_syst_            shape  -       1.      1.      1.              1.      1.      1.      1.      -
+massRes_syst             shape  1.      -       -       -               -       -       -       -       -   

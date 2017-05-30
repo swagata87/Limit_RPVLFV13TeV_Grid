@@ -41,7 +41,7 @@ void get_expected_limit_ZPrimeSSM()
   int mass_min=600;
   int mass_inter_0=1400;  
   int mass_inter_1=1600;
-  int mass_inter_2=2000;  
+  int mass_inter_2=1800;  
   int mass_inter_3=3000;
   int mass_inter_4=4500;
   int mass_max=5000;
@@ -57,7 +57,7 @@ void get_expected_limit_ZPrimeSSM()
   int mass_min_exp=600;
   int mass_inter_0_exp=1400;
   int mass_inter_1_exp=1600;
-  int mass_inter_2_exp=2000;
+  int mass_inter_2_exp=1800;
   int mass_inter_3_exp=3000;
   int mass_max_exp=5000;
 
@@ -232,7 +232,8 @@ void get_expected_limit_ZPrimeSSM()
       
       std::cout << "Mass " << mass << " Will access observed files" << std::endl;
       sprintf(mass_dir,"/merged/Mass%i.root",mass);   
-      TString basedir="/user/mukherjee/out/Feb10_ZPrime_S0_Observed";
+      //      TString basedir="/user/mukherjee/out/Feb10_ZPrime_S0_Observed";
+      TString basedir="/user/mukherjee/out/May8_ZPrime_Observed";
       TString *massdir=new TString(mass_dir);
       TString filename_observed = basedir+*massdir;
       double limit;
@@ -319,7 +320,7 @@ void get_expected_limit_ZPrimeSSM()
       kM_exp=(BGcrosssection/0.4)*1./pow(0.1,2);
       
       sprintf(mass_dir_exp,"/merged/Mass%i.root",mass);   
-      TString basedir_exp="/user/mukherjee/out/Feb10_ZPrime_S0_Expected";
+      TString basedir_exp="/user/mukherjee/out/May8_ZPrime_Expected";
       TString *massdir_exp=new TString(mass_dir_exp);
       TString filename=basedir_exp+*massdir_exp;
       
@@ -467,7 +468,7 @@ void get_expected_limit_ZPrimeSSM()
     //graph_expected->GetXaxis()->SetTitle("M_{#tilde{#nu_{#tau}}} [TeV]");
     //graph_expetced->GetYaxis()->SetTitle("#frac{#sigma_{95%CL}}{#sigma_{sig}}");    
 
-    graph_observed->Draw("Apc");  
+    //    graph_observed->Draw("Apc");  
     graph_expected->GetXaxis()->SetTitleFont(42);
     graph_expected->GetYaxis()->SetTitleFont(42);
     graph_expected->GetXaxis()->SetLabelFont(42);
@@ -509,7 +510,7 @@ void get_expected_limit_ZPrimeSSM()
 
 
     graph_expected->Draw("pl,same");  
-    graph_observed->Draw("pc,same");
+    //    graph_observed->Draw("pc,same");
 
     TLine *borderline = new TLine(0.,1.,2000.,1.);
     borderline->SetLineWidth(2);
@@ -570,7 +571,7 @@ void get_expected_limit_ZPrimeSSM()
     //graph_expected->GetXaxis()->SetTitle("M_{#tilde{#nu_{#tau}}} [TeV]");
     //graph_expetced->GetYaxis()->SetTitle("#frac{#sigma_{95%CL}}{#sigma_{sig}}");    
 
-    graph_observed->Draw("Apc");  
+    //    graph_observed->Draw("Apc");  
     graph_expected_total->GetXaxis()->SetTitleFont(42);
     graph_expected_total->GetYaxis()->SetTitleFont(42);
     graph_expected_total->GetXaxis()->SetLabelFont(42);
@@ -611,7 +612,7 @@ void get_expected_limit_ZPrimeSSM()
     grshade_68_total->Draw("f");
 
     graph_expected_total->Draw("pl,same");  
-    graph_observed_total->Draw("pc,same");
+   graph_observed_total->Draw("pc,same");
 
 
     std::cout<< "Prepare to draw graph 1" << std::endl;
@@ -689,13 +690,13 @@ void get_expected_limit_ZPrimeSSM()
     leg_total->SetTextFont(42);
     leg_total->SetTextSize(0.032);    
     
-     leg_total->AddEntry(graph_observed, "observed limit","pl");
+    //     leg_total->AddEntry(graph_observed, "observed limit","pl");
     //  leg_total->AddEntry(graph_observed, "95% CL limit","pl"); 
     leg_total->AddEntry(graph_expected, "median expected limit","pl"); 
     leg_total->AddEntry(grshade_68, "68% expected","f");
     leg_total->AddEntry(grshade_95, "95% expected","f");
     //leg_total->AddEntry(graph_xsec, "#splitline{RPV signal (NLO)}{#lambda^{I}_{311}=#lambda_{132}=0.01}","l");
-    leg_total->AddEntry(graph_xsec, "Z' signal","");
+    leg_total->AddEntry(graph_xsec, "Z' signal:","");
     //  leg_total->AddEntry(graph_xsec_2, "#lambda^{I}_{311}=#lambda_{132}=#lambda_{231}=0.01","l");
     // leg_total->AddEntry(graph_xsec, "#lambda^{I}_{311}=#lambda_{132}=#lambda_{231}=0.1","l");
     //    leg_total->AddEntry(graph_xsec_3, "#lambda^{I}_{311}=#lambda_{132}=#lambda_{231}=0.2","l");
@@ -729,7 +730,7 @@ void get_expected_limit_ZPrimeSSM()
     CMS_text_2->SetTextAngle(0);
     CMS_text_2->Draw("same");    
 
-    TLatex* lumiText = new TLatex(0.95,0.975,"36.5 fb^{-1} (13 TeV)");
+    TLatex* lumiText = new TLatex(0.95,0.975,"35.9 fb^{-1} (13 TeV)");
     lumiText->SetNDC();
     lumiText->SetTextFont(42);
     lumiText->SetTextSize(0.04);
@@ -739,11 +740,10 @@ void get_expected_limit_ZPrimeSSM()
 
   total->Print("limit_zprime.pdf");
 
-}
 
 
 
-/*
+
     outfile->cd();
     //}
     graph_observed_total->Write("limit_observed");
@@ -753,7 +753,7 @@ void get_expected_limit_ZPrimeSSM()
     graph_expected_68_down_total->Write("limit_68_down");    
     grshade_95_total->Write("limit_95_shade");
 }
-*/
+
 
 
 

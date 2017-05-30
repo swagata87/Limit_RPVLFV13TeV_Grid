@@ -69,8 +69,8 @@ void limit_scan()
     }
 
   string line;
-  //  ifstream observed_in ("observed_limit_mass_kM.txt");
-  ifstream observed_in ("expected_limit_mass_kM.txt");
+    ifstream observed_in ("observed_limit_mass_kM.txt");
+  //     ifstream observed_in ("expected_limit_mass_kM.txt");
   //ifstream observed_in ("observed_limit_mass_kM.txt");
   //ifstream observed_in ("observed_limit_mass_kM_add_cuts.txt");
   if (observed_in.is_open())
@@ -82,20 +82,20 @@ void limit_scan()
 	  observed_in >> kM[counter_array];      
 	  observed_in >> observed_xsec[counter_array];      
      
-	  std::cout << "\n" << mass[counter_array] << endl;
-	  std::cout << kM[counter_array] << endl;      
-	  std::cout << observed_xsec[counter_array] << endl;      
+	  std::cout << "\n mass " << mass[counter_array] << endl;
+	  std::cout << " kM  " << kM[counter_array] << endl;      
+	  std::cout << " obs xsec " << observed_xsec[counter_array] << endl;      
 
 	  counter_array++;
-	  std::cout << counter_array << endl;
+	  std::cout << " count " << counter_array << endl;
 
-	  if(mass[counter_array-1]==4000)break;
+       	  if(mass[counter_array-1]==5000)break;
 
 	}
       observed_in.close();
     }
 
-  std::cout << counter_array << endl;
+  std::cout << " out of loop count" << counter_array << endl;
 
   double lambda_fix[4];
   lambda_fix[0]=0.07;  
@@ -202,6 +202,8 @@ void limit_scan()
   gStyle->SetTitleYOffset(1.05);
   */
 
+  std::cout << "counter_points_plot[0] = " << counter_points_plot[0] << std::endl; 
+
   TGraph *graph_lambdaP_0 = new TGraph(counter_points_plot[0],mass,lambdaP_solution_0);  
 
  
@@ -214,8 +216,8 @@ void limit_scan()
   graph_lambdaP_0->SetMarkerStyle(22);
   graph_lambdaP_0->SetMarkerSize(1.2); 
   graph_lambdaP_0->SetMarkerColor(kRed);  
-  graph_lambdaP_0->GetYaxis()->SetRangeUser(0.0005,0.2);
-  graph_lambdaP_0->GetXaxis()->SetRangeUser(200.,5000.);
+  graph_lambdaP_0->GetYaxis()->SetRangeUser(0.0001,0.8);
+  graph_lambdaP_0->GetXaxis()->SetRangeUser(200.,4800.);
 
   graph_lambdaP_0->GetXaxis()->SetTitleFont(42);
   graph_lambdaP_0->GetYaxis()->SetTitleFont(42);
@@ -242,8 +244,8 @@ void limit_scan()
   graph_lambdaP_1->SetMarkerStyle(22);
   graph_lambdaP_1->SetMarkerSize(1.2); 
   graph_lambdaP_1->SetMarkerColor(kBlue);   
-  graph_lambdaP_1->GetYaxis()->SetRangeUser(0.001,0.4);  
-  graph_lambdaP_1->GetXaxis()->SetRangeUser(200.,5000.);
+  graph_lambdaP_1->GetYaxis()->SetRangeUser(0.0001,0.8);  
+  graph_lambdaP_1->GetXaxis()->SetRangeUser(200.,4800.);
   graph_lambdaP_1->SetTitle(" ");
 
   //lambdaP=0.01
@@ -261,8 +263,8 @@ void limit_scan()
   graph_lambdaP_2->SetMarkerStyle(22);
   graph_lambdaP_2->SetMarkerSize(1.2);
   graph_lambdaP_2->SetMarkerColor(kGreen);    
-  graph_lambdaP_2->GetYaxis()->SetRangeUser(0.001,0.4); 
-  graph_lambdaP_2->GetXaxis()->SetRangeUser(200.,5000.);
+  graph_lambdaP_2->GetYaxis()->SetRangeUser(0.0001,0.8); 
+  graph_lambdaP_2->GetXaxis()->SetRangeUser(200.,4800.);
   graph_lambdaP_2->SetTitle(" ");
 
   //lambdaP=0.007
@@ -280,8 +282,8 @@ void limit_scan()
   graph_lambdaP_3->SetMarkerStyle(22);
   graph_lambdaP_3->SetMarkerSize(1.2);
   graph_lambdaP_3->SetMarkerColor(kBlack);    
-  graph_lambdaP_3->GetYaxis()->SetRangeUser(0.001,0.4); 
-  graph_lambdaP_3->GetXaxis()->SetRangeUser(200.,5000.);
+  graph_lambdaP_3->GetYaxis()->SetRangeUser(0.0001,0.8); 
+  graph_lambdaP_3->GetXaxis()->SetRangeUser(200.,4800.);
   graph_lambdaP_3->SetTitle(" ");
 
   //Let's draw it
@@ -312,7 +314,7 @@ void limit_scan()
   CMS_text->SetNDC();
   CMS_text->SetTextSize(0.04);
   CMS_text->SetTextAngle(0);
-  CMS_text->Draw("same");
+   CMS_text->Draw("same");
     
   TLatex* CMS_text_2 = new TLatex(0.14,0.81,"Preliminary");
   //TLatex* CMS_text_2 = new TLatex(0.20,0.83,"own work in");
@@ -331,7 +333,7 @@ void limit_scan()
     CMS_text_3->Draw("same");        
   */
 
-  TLatex* lumiText = new TLatex(0.90,0.92,"36.5 fb^{-1} (13 TeV)");
+  TLatex* lumiText = new TLatex(0.90,0.92,"35.9 fb^{-1} (13 TeV)");
   lumiText->SetNDC();
   lumiText->SetTextFont(42);
   lumiText->SetTextSize(0.03);
@@ -348,7 +350,7 @@ void limit_scan()
   */
 
 
-
+  c_lambdaP->Update();
   c_lambdaP->Print("RPV_scan.pdf");
 
 }
