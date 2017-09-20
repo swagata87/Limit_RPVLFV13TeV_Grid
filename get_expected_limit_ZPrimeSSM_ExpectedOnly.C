@@ -25,7 +25,7 @@
 using namespace std;
 using namespace TMath;
 
-void get_expected_limit_ZPrimeSSM()
+void get_expected_limit_ZPrimeSSM_ExpectedOnly()
 {
 
   std::cout << "Inside get_expected_limit " << std::endl;
@@ -37,7 +37,7 @@ void get_expected_limit_ZPrimeSSM()
 
   Char_t file_title_2[200];
   Char_t file_title_3[200];
-
+  /*
   int mass_min=600;
   int mass_inter_0=1400;  
   int mass_inter_1=1600;
@@ -52,24 +52,26 @@ void get_expected_limit_ZPrimeSSM()
   int binning_3=200;  
   int binning_4=500;  
   int binning_5=500;
-
+  */
   ///// Expected Limit /////
   int mass_min_exp=600;
-  int mass_inter_0_exp=1400;
-  int mass_inter_1_exp=1600;
+  int mass_inter_0_exp=800;
+  int mass_inter_1_exp=1000;
   int mass_inter_2_exp=2000;
   int mass_inter_3_exp=3000;
+  int mass_inter_4_exp=4000;
   int mass_max_exp=5000;
 
-  int binning_0_exp=100;
-  int binning_1_exp=100;
-  int binning_2_exp=100;
-  int binning_3_exp=200;
-  int binning_4_exp=500;
+  int binning_0_exp=200;
+  int binning_1_exp=200;
+  int binning_2_exp=1000;
+  int binning_3_exp=1000;
+  int binning_4_exp=1000;
+  int binning_5_exp=1000;
 
   //////////////////////////
 
-  int mass=mass_min;
+  int mass=mass_min_exp;
 
   TFile* outfile=new TFile("outfile_ZPrimeSSM_limits.root","recreate");
 
@@ -145,161 +147,44 @@ void get_expected_limit_ZPrimeSSM()
       xs_expected_95_down[k]=0.;  
     }
 
-  int counter_masses=0;
+  //  int counter_masses=0;
   int counter_masses_exp=0;
 
   double kM=0.;
   double kM_exp=0.;
 
 
-  while(mass<=mass_max)
+  while(mass<=mass_max_exp)
     {
       //      std::cout << "Will do file_title_2" << std::endl;
       sprintf(file_title_2, "zprime_mass%d_SSM", (int)mass);
       get_environment(file_title_2);
-      xsec_NLO_2[counter_masses]=BGcrosssection*1000; //BGweight;
+      xsec_NLO_2[counter_masses_exp]=BGcrosssection*1000; //BGweight;
       //   std::cout << "Read xs for 0.01 coupling for mass " << mass << std::endl;
-      counter_masses++;
+      counter_masses_exp++;
       
-      if(mass<mass_inter_0){mass+=binning_0;}
+      if(mass<mass_inter_0_exp){mass+=binning_0_exp;}
       else { 
-        if(mass<mass_inter_1) mass+=binning_1;
+        if(mass<mass_inter_1_exp) mass+=binning_1_exp;
         else 
 	  {
-	    if(mass<mass_inter_2)mass+=binning_2;
+	    if(mass<mass_inter_2_exp)mass+=binning_2_exp;
 	    else 
 	      {
-		if(mass<mass_inter_3) mass+=binning_3;
+		if(mass<mass_inter_3_exp) mass+=binning_3_exp;
 		else 
 		  {
-		    if(mass<mass_inter_4) mass+=binning_4;
-		    else mass+=binning_5;
+		    if(mass<mass_inter_4_exp) mass+=binning_4_exp;
+		    else mass+=binning_5_exp;
 		  }
 	      }
 	  }
       }
     }
   
-    counter_masses=0;
-    mass=mass_min;
+  counter_masses_exp=0;
+    mass=mass_min_exp;
 
-  /*
-  while(mass<=mass_max)
-    {
-      //      std::cout << "Will do file_title_3" << std::endl;
-      sprintf(file_title_3,"dim_4_mass%d_QBH",(int)mass);
-      get_environment(file_title_3);
-      xsec_NLO_3[counter_masses]=BGcrosssection*1000;//BGweight;
-      //   std::cout << "Read xs for 0.01 coupling for mass " << mass << std::endl;                                                                                            
-      counter_masses++;
-
-      if(mass<mass_inter_0){mass+=binning_0;}
-      else { 
-        if(mass<mass_inter_1) mass+=binning_1;
-        else 
-	  {
-	    if(mass<mass_inter_2)mass+=binning_2;
-	    else 
-	      {
-		if(mass<mass_inter_3) mass+=binning_3;
-		else 
-		  {
-		    if(mass<mass_inter_4) mass+=binning_4;
-		    else mass+=binning_5;
-		  }
-	      }
-	  }
-      }
-
-    }
-
-  //  counter_masses=0;
-  mass=mass_min;
-  */
-
-  std::cout << "Will do observed ! " << std::endl;  
-  ////////// observed //////////
-  while(mass<=mass_max)
-    {
-      
-      masses[counter_masses]=mass;
-      sprintf(file_title, "zprime_mass%d_SSM",(int)mass);
-      // sprintf(file_title,"LQD_01_LLE_01_MSnl_scale_down_%d",(int)mass);
-      get_environment(file_title);
-      xsec_NLO[counter_masses]=BGcrosssection*1000; //BGweight;
-      //this is in fb , 0.4 is BR, 0.1 is coupling
-      kM=(BGcrosssection/0.4)*1./pow(0.1,2);
-      
-      std::cout << "Mass " << mass << " Will access observed files" << std::endl;
-      sprintf(mass_dir,"/merged/Mass%i.root",mass);   
-      //      TString basedir="/user/mukherjee/out/Feb10_ZPrime_S0_Observed";
-      TString basedir="/user/mukherjee/out/July22_Xprime_Observed";
-      TString *massdir=new TString(mass_dir);
-      TString filename_observed = basedir+*massdir;
-      double limit;
-      //      TString filename_observed = basedir+*massdir;
-      TFile *observed_file=new TFile(filename_observed);      
-
-      delete massdir;
-      
-      TTree *tree_observed = (TTree*)observed_file->Get("limit");
-      tree_observed->ResetBranchAddresses();
-      tree_observed->SetBranchAddress("limit",&limit);      
-      
-      int nrEntries = tree_observed->GetEntries();
-      for(int entryNr=0;entryNr<nrEntries;entryNr++){
-	tree_observed->GetEntry(entryNr);
-	observed_limit << limit << endl;
-      }
-      
-      observed[counter_masses]=limit;
-      
-      //  std::cout << "Mass: " << mass << " observed limit: " << limit << std::endl; ;
-    
-      //      xs_expected[counter_masses]=expected[counter_masses]*xsec_NLO[counter_masses]; ///Aeff[counter_masses];
-       xs_observed[counter_masses]=observed[counter_masses]*xsec_NLO[counter_masses]; ///Aeff[counter_masses];
-      //xs_expected_68_up[counter_masses]=expected_68_up[counter_masses]*xsec_NLO[counter_masses];
-      //xs_expected_68_down[counter_masses]=expected_68_down[counter_masses]*xsec_NLO[counter_masses];   
-      //xs_expected_95_up[counter_masses]=expected_95_up[counter_masses]*xsec_NLO[counter_masses];
-      //xs_expected_95_down[counter_masses]=expected_95_down[counter_masses]*xsec_NLO[counter_masses]; 
-
-      observed_limit_xsec << limit*xsec_NLO[counter_masses]  << endl;
-      //expected_limit_xsec << xs_expected[counter_masses]  << endl;      
-
-      observed_limit_mass_kM << mass << " " << kM << " " << limit*xsec_NLO[counter_masses] << endl;            
-      //expected_limit_mass_kM << mass << " " << kM << " " << xs_expected[counter_masses] << endl;            
-
-      cout << mass << "  &   " <<   xs_observed[counter_masses]  <<  " \\\\ "    << endl; 
-      // std::cout << "Mass " << mass <<  " " << xs_expected[counter_masses] << "=" << expected[counter_masses] << "*" <<xsec_NLO[counter_masses] << std::endl; 
-
-      counter_masses++;
-      
-      if(mass<mass_inter_0){mass+=binning_0;}
-      else { 
-        if(mass<mass_inter_1) mass+=binning_1;
-        else 
-	  {
-	    if(mass<mass_inter_2)mass+=binning_2;
-	    else 
-	      {
-		if(mass<mass_inter_3) mass+=binning_3;
-		else 
-		  {
-		    if(mass<mass_inter_4) mass+=binning_4;
-		    else mass+=binning_5;
-		  }
-	      }
-	  }
-      }
-    }
- 
-
-
-  observed_limit.close();                                                                                                        
-  observed_limit_xsec.close();                                                                                                    
-  observed_limit_mass_kM.close();   
-  
-  //  counter_masses=0;
    mass=mass_min_exp;
 
   
@@ -320,7 +205,7 @@ void get_expected_limit_ZPrimeSSM()
       kM_exp=(BGcrosssection/0.4)*1./pow(0.1,2);
       
       sprintf(mass_dir_exp,"/merged/Mass%i.root",mass);   
-      TString basedir_exp="/user/mukherjee/out/July22_Zprime_Expected";
+      TString basedir_exp="/user/mukherjee/out/Sep17_Zprime_Expected_MCstat"; // Sep15_Zprime_Expected_Nominal_NoSyst";
       TString *massdir_exp=new TString(mass_dir_exp);
       TString filename=basedir_exp+*massdir_exp;
       
@@ -377,16 +262,16 @@ void get_expected_limit_ZPrimeSSM()
       /// cout << "Mass: " << mass << " observed limit: " << limit ;
 
       xs_expected[counter_masses_exp]=expected[counter_masses_exp]*xsec_NLO_2[counter_masses_exp]; ///Aeff[counter_masses];
-      xs_observed[counter_masses]=observed[counter_masses]*xsec_NLO[counter_masses]; ///Aeff[counter_masses];
+      //      xs_observed[counter_masses]=observed[counter_masses]*xsec_NLO[counter_masses]; ///Aeff[counter_masses];
       xs_expected_68_up[counter_masses_exp]=expected_68_up[counter_masses_exp]*xsec_NLO_2[counter_masses_exp];
       xs_expected_68_down[counter_masses_exp]=expected_68_down[counter_masses_exp]*xsec_NLO_2[counter_masses_exp];   
       xs_expected_95_up[counter_masses_exp]=expected_95_up[counter_masses_exp]*xsec_NLO_2[counter_masses_exp];
       xs_expected_95_down[counter_masses_exp]=expected_95_down[counter_masses_exp]*xsec_NLO_2[counter_masses_exp]; 
 
-      observed_limit_xsec << limit*xsec_NLO[counter_masses]  << endl;
+      //      observed_limit_xsec << limit*xsec_NLO[counter_masses]  << endl;
       expected_limit_xsec << xs_expected[counter_masses_exp]  << endl;      
 
-      observed_limit_mass_kM << mass << " " << kM << " " << limit*xsec_NLO[counter_masses] << endl;            
+      //      observed_limit_mass_kM << mass << " " << kM << " " << limit*xsec_NLO[counter_masses] << endl;            
       expected_limit_mass_kM << mass << " " << kM_exp << " " << xs_expected[counter_masses_exp] << endl;            
 
       cout << mass << "  &   " << xs_expected[counter_masses_exp]  <<  " \\\\ "    << endl; 
@@ -417,12 +302,12 @@ void get_expected_limit_ZPrimeSSM()
   upper_95.close();
   lower_95.close();
   
-  observed_limit.close();
-  observed_limit_xsec.close();
+  //  observed_limit.close();
+  //  observed_limit_xsec.close();
  
   expected_limit_xsec.close();  
   expected_limit_mass_kM.close();
-   observed_limit_mass_kM.close();
+  //  observed_limit_mass_kM.close();
 
   //limits have been written, now produce the corresponding plots
 
@@ -439,7 +324,7 @@ void get_expected_limit_ZPrimeSSM()
 
   ratio->cd();
   ratio->SetLogy();
-  
+  /*
   TGraph *graph_observed = new TGraph(counter_masses,masses,observed);
   graph_observed->GetXaxis()->SetRangeUser(mass_min,mass_max);
   graph_observed->GetYaxis()->SetRangeUser(0.1,10);
@@ -452,7 +337,7 @@ void get_expected_limit_ZPrimeSSM()
     graph_observed->SetLineWidth(3);   
     graph_observed->GetXaxis()->SetTitle("M_{#tilde{#nu_{#tau}}} (GeV)");
     graph_observed->GetYaxis()->SetTitle("#frac{#sigma_{95%CL}}{#sigma_{sig}#timesBR}");    
- 
+  */
 
   TGraph *graph_expected = new TGraph(counter_masses_exp,masses_exp,expected);
   graph_expected->GetXaxis()->SetRangeUser(mass_min_exp,mass_max_exp);
@@ -476,7 +361,7 @@ void get_expected_limit_ZPrimeSSM()
     //    graph_expected->GetXaxis()->SetTitle("M_{#tilde{#nu_{#tau}}} (GeV)");
     graph_expected->GetXaxis()->SetTitle("M_{Z'} (GeV)");
     graph_expected->GetYaxis()->SetTitle("#frac{#sigma_{95% CL}}{#sigma_{signal}}");
-    graph_expected->GetXaxis()->SetRangeUser(mass_min,mass_max);
+    graph_expected->GetXaxis()->SetRangeUser(mass_min_exp,mass_max_exp);
     graph_expected->GetYaxis()->SetRangeUser(10,80.);
     graph_expected->Draw("Apl");   
 
@@ -522,7 +407,7 @@ void get_expected_limit_ZPrimeSSM()
     leg_example->SetFillColor(0);
     leg_example->SetTextFont(42);
     
-     leg_example->AddEntry(graph_observed, "observed limit","pl");
+    //     leg_example->AddEntry(graph_observed, "observed limit","pl");
     //   leg_example->AddEntry(graph_observed, "95% CL limit","pl"); 
     leg_example->AddEntry(graph_expected, "median expected limit","pl"); 
     leg_example->AddEntry(grshade_68, "68% expected","f");
@@ -542,7 +427,7 @@ void get_expected_limit_ZPrimeSSM()
 
     total->SetLogy();
   
-   
+    /*   
     TGraph *graph_observed_total = new TGraph(counter_masses,masses,xs_observed);
     graph_observed->GetXaxis()->SetRangeUser(mass_min,mass_max);
     graph_observed->GetYaxis()->SetRangeUser(1,10000.);
@@ -555,14 +440,14 @@ void get_expected_limit_ZPrimeSSM()
     graph_observed_total->SetLineWidth(3);   
     graph_observed->GetXaxis()->SetTitle("M_{#tilde{#nu_{#tau}}} (GeV)");
     graph_observed->GetYaxis()->SetTitle("#frac{#sigma_{95%CL}}{#sigma_{sig}#timesBR}");    
-    
+    */
 
     TGraph *graph_expected_total = new TGraph(counter_masses_exp,masses_exp,xs_expected);
     graph_expected_total->GetXaxis()->SetRangeUser(mass_min_exp,mass_max_exp);
     graph_expected_total->GetYaxis()->SetRangeUser(0.01,10000.);
     //gPad->SetLogy();
     graph_expected_total->SetTitle("");
-    graph_expected_total->SetMarkerStyle(0);
+    graph_expected_total->SetMarkerStyle(20);
     graph_expected_total->SetMarkerSize(0.8);
     graph_expected_total->SetMarkerColor(kBlack);
     graph_expected_total->SetLineColor(kBlack);
@@ -612,12 +497,12 @@ void get_expected_limit_ZPrimeSSM()
     grshade_68_total->Draw("f");
 
     graph_expected_total->Draw("pl,same");  
-   graph_observed_total->Draw("pc,same");
+    //   graph_observed_total->Draw("pc,same");
 
 
     std::cout<< "Prepare to draw graph 1" << std::endl;
     
-    TGraph *graph_xsec= new TGraph(counter_masses,masses_exp,xsec_NLO_exp);
+    TGraph *graph_xsec= new TGraph(counter_masses_exp,masses_exp,xsec_NLO_exp);
     graph_xsec->SetTitle("");
     graph_xsec->SetMarkerStyle(0);
     graph_xsec->SetMarkerSize(1.4);
@@ -738,7 +623,7 @@ void get_expected_limit_ZPrimeSSM()
     lumiText->Draw("same");     
 
 
-  total->Print("limit_zprime.pdf");
+  total->Print("limit_zprime_expectedOnly.pdf");
 
 
 
@@ -746,7 +631,7 @@ void get_expected_limit_ZPrimeSSM()
 
     outfile->cd();
     //}
-    graph_observed_total->Write("limit_observed");
+    //   graph_observed_total->Write("limit_observed");
     graph_expected_total->Write("limit_expected");    
     total->Write("limit_plot");
     graph_expected_68_up_total->Write("limit_68_up");

@@ -25,7 +25,7 @@
 using namespace std;
 using namespace TMath;
 
-void OptimizeCutWithLimit()
+void OptimizeCutWithLimit1()
 {
   std::cout << "Inside get_expected_limit " << std::endl;
   Char_t mass_dir[200];
@@ -43,8 +43,8 @@ void OptimizeCutWithLimit()
   double expected_MT_1[200];
   double expected_MT_2[200];
   double expected_MT_3[200];
-  //  double expected_MT_4[200];
-  //  double expected_MT_5[200];
+  double expected_MT_4[200];
+  double expected_MT_5[200];
   // double expected_MT_6[200];
   //  double expected_MT_7[200];
   // double expected_MT_8[200];
@@ -54,8 +54,8 @@ void OptimizeCutWithLimit()
   double xs_expected_MT_1[200];
   double xs_expected_MT_2[200];
   double xs_expected_MT_3[200];
-  // double xs_expected_MT_4[200];
-  // double xs_expected_MT_5[200];
+  double xs_expected_MT_4[200];
+  double xs_expected_MT_5[200];
   // double xs_expected_MT_6[200];
   //  double xs_expected_MT_7[200];
   // double xs_expected_MT_8[200];
@@ -72,8 +72,8 @@ void OptimizeCutWithLimit()
       expected_MT_1[k]=0.;
       expected_MT_2[k]=0.;
       expected_MT_3[k]=0.;
-      //      expected_MT_4[k]=0.;
-      // expected_MT_5[k]=0.;
+      expected_MT_4[k]=0.;
+      expected_MT_5[k]=0.;
       // expected_MT_6[k]=0.;
       // expected_MT_7[k]=0.;
       // expected_MT_8[k]=0.;
@@ -85,8 +85,8 @@ void OptimizeCutWithLimit()
       xs_expected_MT_1[k]=0.;
       xs_expected_MT_2[k]=0.;
       xs_expected_MT_3[k]=0.;
-      // xs_expected_MT_4[k]=0.;
-      // xs_expected_MT_5[k]=0.;
+      xs_expected_MT_4[k]=0.;
+      xs_expected_MT_5[k]=0.;
       //xs_expected_MT_6[k]=0.;
       //xs_expected_MT_7[k]=0.;
       // xs_expected_MT_8[k]=0.;
@@ -111,12 +111,12 @@ void OptimizeCutWithLimit()
       //std::cout<< "Read xs for 0.1 coupling for mass " << mass << std::endl;
 
       sprintf(mass_dir,"/merged/Mass%i.root",mass);   
-      TString basedir_MT_1="/user/mukherjee/out/Sep15_Zprime_Expected_20/";
-      TString basedir_MT_2="/user/mukherjee/out/Sep15_Zprime_Expected_Nominal/";
-      TString basedir_MT_3="/user/mukherjee/out/Sep15_Zprime_Expected_100/";
-      /*      TString basedir_MT_4="/user/mukherjee/out/RPVExpectedLimit_MT_4/";
-      TString basedir_MT_5="/user/mukherjee/out/RPVExpectedLimit_MT_5/";
-      TString basedir_MT_6="/user/mukherjee/out/RPVExpectedLimit_MT_6/";
+      TString basedir_MT_1="/user/mukherjee/out/Sep15_Zprime_Expected_Nominal_NoSyst";
+      TString basedir_MT_2="/user/mukherjee/out/Sep17_Zprime_Expected_MCstat";
+      TString basedir_MT_3="/user/mukherjee/out/Sep18_Zprime_Expected_extra_syst_20";
+      TString basedir_MT_4="/user/mukherjee/out/Sep18_Zprime_Expected_extra_syst_40/";
+      TString basedir_MT_5="/user/mukherjee/out/Sep18_Zprime_Expected_extra_syst_60/";
+      /*      TString basedir_MT_6="/user/mukherjee/out/RPVExpectedLimit_MT_6/";
       TString basedir_MT_7="/user/mukherjee/out/RPVExpectedLimit_MT_7/";
       TString basedir_MT_8="/user/mukherjee/out/RPVExpectedLimit_MT_8/";
       TString basedir_MT_9="/user/mukherjee/out/RPVExpectedLimit_MT_9/";
@@ -127,10 +127,9 @@ void OptimizeCutWithLimit()
       TString filename_MT_1=basedir_MT_1+*massdir;
       TString filename_MT_2=basedir_MT_2+*massdir;
       TString filename_MT_3=basedir_MT_3+*massdir;
-      /*
       TString filename_MT_4=basedir_MT_4+*massdir;
       TString filename_MT_5=basedir_MT_5+*massdir;
-      TString filename_MT_6=basedir_MT_6+*massdir;
+      /*      TString filename_MT_6=basedir_MT_6+*massdir;
       TString filename_MT_7=basedir_MT_7+*massdir;
       TString filename_MT_8=basedir_MT_8+*massdir;
       TString filename_MT_9=basedir_MT_9+*massdir;
@@ -183,6 +182,7 @@ void OptimizeCutWithLimit()
       ////
 
       ////
+  
       TFile *expected_file_MT_3=new TFile(filename_MT_3);
       TTree *tree_MT_3 = (TTree*)expected_file_MT_3->Get("limit");
       tree_MT_3->ResetBranchAddresses();
@@ -201,9 +201,9 @@ void OptimizeCutWithLimit()
       xs_expected_MT_3[counter_masses]=expected_MT_3[counter_masses]*xsec_NLO[counter_masses]; ///Aeff[counter_masses];
       cout << "MT 3 : Mass" << mass << "  &   " << xs_expected_MT_3[counter_masses]  <<  " \\\\ "    << endl; 
       //////
-
+  
       ////
-      /*
+      
       TFile *expected_file_MT_4=new TFile(filename_MT_4);
       TTree *tree_MT_4 = (TTree*)expected_file_MT_4->Get("limit");
       tree_MT_4->ResetBranchAddresses();
@@ -242,7 +242,7 @@ void OptimizeCutWithLimit()
       xs_expected_MT_5[counter_masses]=expected_MT_5[counter_masses]*xsec_NLO[counter_masses]; ///Aeff[counter_masses];
       cout << "MT 5 : Mass" << mass << "  &   " << xs_expected_MT_5[counter_masses]  <<  " \\\\ "    << endl; 
       //////
-
+      /*
       ////
       TFile *expected_file_MT_6=new TFile(filename_MT_6);
       TTree *tree_MT_6 = (TTree*)expected_file_MT_6->Get("limit");
@@ -362,7 +362,7 @@ void OptimizeCutWithLimit()
   gStyle->SetTitleYSize(0.05);
   gStyle->SetTitleYOffset(1.05);
 
-  TCanvas* total = new TCanvas("total","total",800,800);
+  TCanvas* total = new TCanvas("total","total",1000,800);
   total->cd();
   total->SetLogy();
   
@@ -385,7 +385,7 @@ void OptimizeCutWithLimit()
   graph_expected_total_MT_1->GetXaxis()->SetTitle("M_{Z'} (GeV)");
   graph_expected_total_MT_1->GetYaxis()->SetTitle("#sigma^{prod}_{Z'} #times BR ( Z' #rightarrow e#mu ) (fb)");
   graph_expected_total_MT_1->GetXaxis()->SetRangeUser(mass_min,mass_max);
-  graph_expected_total_MT_1->GetYaxis()->SetRangeUser(0.01,100.);
+  graph_expected_total_MT_1->GetYaxis()->SetRangeUser(0.1,4.);
   graph_expected_total_MT_1->Draw("Apl");   
   //  graph_expected_total_MT_1->Draw("pl,same");  
   
@@ -409,12 +409,13 @@ void OptimizeCutWithLimit()
   graph_expected_total_MT_2->GetXaxis()->SetTitle("M_{#tilde{#nu}_{#tau}} (GeV)");
   graph_expected_total_MT_2->GetYaxis()->SetTitle("#sigma^{prod}_{#tilde{#nu_{#tau}}} #times BR ( #tilde{#nu_{#tau}} #rightarrow #mu#tau_h ) (fb)");
   graph_expected_total_MT_2->GetXaxis()->SetRangeUser(mass_min,mass_max);
-  graph_expected_total_MT_2->GetYaxis()->SetRangeUser(0.0001,10.);
+  graph_expected_total_MT_2->GetYaxis()->SetRangeUser(0.1,10.);
   //graph_expected_total_MT_2->Draw("Apl");   
   graph_expected_total_MT_2->Draw("pl,same");  
   /////////
 
   /////////
+  
   TGraph *graph_expected_total_MT_3 = new TGraph(counter_masses,masses,xs_expected_MT_3);
   graph_expected_total_MT_3->SetTitle("");
   graph_expected_total_MT_3->SetMarkerStyle(20);
@@ -431,8 +432,9 @@ void OptimizeCutWithLimit()
   graph_expected_total_MT_3->GetXaxis()->SetRangeUser(mass_min,mass_max);
   graph_expected_total_MT_3->GetYaxis()->SetRangeUser(0.001,10.);
   graph_expected_total_MT_3->Draw("pl,same");  
+   
   /////////
-  /*
+  
   /////////
   TGraph *graph_expected_total_MT_4 = new TGraph(counter_masses,masses,xs_expected_MT_4);
   graph_expected_total_MT_4->SetTitle("");
@@ -470,7 +472,7 @@ void OptimizeCutWithLimit()
   graph_expected_total_MT_5->GetYaxis()->SetRangeUser(0.01,10000.);
   graph_expected_total_MT_5->Draw("pl,same");  
   /////////
-
+  /*
   /////////
   TGraph *graph_expected_total_MT_6 = new TGraph(counter_masses,masses,xs_expected_MT_6);
   graph_expected_total_MT_6->SetTitle("");
@@ -571,13 +573,12 @@ void OptimizeCutWithLimit()
   leg_total->SetFillColor(0);
   leg_total->SetTextFont(42);
   leg_total->SetTextSize(0.032);    
-  leg_total->AddEntry(graph_expected_total_MT_1, "20 inv fb","pl");
-  leg_total->AddEntry(graph_expected_total_MT_2, "35.9 inv fb","pl");
-  leg_total->AddEntry(graph_expected_total_MT_3, "100 inv fb","pl");
-  /*
-  leg_total->AddEntry(graph_expected_total_MT_4, "MT 4","pl");
-  leg_total->AddEntry(graph_expected_total_MT_5, "MT 5","pl");
-  leg_total->AddEntry(graph_expected_total_MT_6, "MT 6","pl");
+  leg_total->AddEntry(graph_expected_total_MT_1, "Without syst","pl");
+  leg_total->AddEntry(graph_expected_total_MT_2, "Nominal syst","pl");
+  leg_total->AddEntry(graph_expected_total_MT_3, "Extra 20% syst","pl");
+  leg_total->AddEntry(graph_expected_total_MT_4, "Extra 40% syst","pl");
+  leg_total->AddEntry(graph_expected_total_MT_5, "Extra 60% syst","pl");
+  /*  leg_total->AddEntry(graph_expected_total_MT_6, "MT 6","pl");
   leg_total->AddEntry(graph_expected_total_MT_7, "MT 7","pl");
   leg_total->AddEntry(graph_expected_total_MT_8, "MT 8","pl");
   leg_total->AddEntry(graph_expected_total_MT_9, "MT 9","pl");
@@ -606,7 +607,7 @@ void OptimizeCutWithLimit()
   lumiText->SetTextSize(0.04);
   lumiText->SetTextAlign(32);
   // lumiText->Draw("same");     
-  total->Print("limit_zprime_test.pdf");
+  total->Print("limit_zprime_test2.pdf");
   
 }
 

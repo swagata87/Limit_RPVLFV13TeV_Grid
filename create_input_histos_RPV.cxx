@@ -66,10 +66,10 @@ void create_input_histos_RPV(int stage){
   ofstream myfile;
   myfile.open (dir_title1);
 
-  double mass_min=1700;
-  double mass_max=6500;
+  double mass_min=200;
+  double mass_max=3000;
 
-  int step_size=100;
+  int step_size=200;
 
   int N_points=(int)(mass_max-mass_min)/(double)step_size;
 

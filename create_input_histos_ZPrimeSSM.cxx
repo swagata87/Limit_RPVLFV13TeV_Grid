@@ -30,14 +30,14 @@ void create_input_histos_ZPrimeSSM(int stage){
   TFile* infile; 
   ///net/scratch_cms/institut_3a/mukherjee/EMULimitJan20
   TString rootfilenames[] = {
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ttbar_tot.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/WW_tot.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/SingleTop_tot.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/DY_tot.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/WZ_tot.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZZ_tot.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/Wgamma.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/Bkg_DataDriven_MuJet.root"
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ttbar_tot.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/WW_tot.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/SingleTop_tot.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/DY_tot.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/WZ_tot.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZZ_tot.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/Wgamma.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/Bkg_DataDriven_MuJet.root"
 };
 
   TString sample_names[] = {"TT_tot","WW_tot","single_top_tot","DY_tot","WZ_tot","ZZ_tot","Wgamma","datadriven"};
@@ -105,9 +105,31 @@ void create_input_histos_ZPrimeSSM(int stage){
   //////////////////////////////////////
   //              UPDATE              //
   double Lumi_bkg = (35866.7/1000.0);
+  //double Lumi_bkg = (20000.0/1000.0);
   std::cout << "Lumi scale factor for bkg : " << Lumi_bkg << std::endl;
   /////////////////////////////////////
-  
+  // TString sample_names[] = {"TT_tot","WW_tot","single_top_tot","DY_tot","WZ_tot","ZZ_tot","Wgamma","datadriven"};
+  TH1D* TT_tot_MCstat_syst_Up = new TH1D("TT_tot_MCstat_syst_Up" , "TT_tot_MCstat_syst_Up", 10000, 0, 10000);
+  TH1D* TT_tot_MCstat_syst_Down = new TH1D("TT_tot_MCstat_syst_Down" , "TT_tot_MCstat_syst_Down", 10000, 0, 10000);
+  //
+  TH1D* WW_tot_MCstat_syst_Up = new TH1D("WW_tot_MCstat_syst_Up" , "WW_tot_MCstat_syst_Up", 10000, 0, 10000);
+  TH1D* WW_tot_MCstat_syst_Down = new TH1D("WW_tot_MCstat_syst_Down" , "WW_tot_MCstat_syst_Down", 10000, 0, 10000);
+  //
+  TH1D* single_top_tot_MCstat_syst_Up = new TH1D("single_top_tot_MCstat_syst_Up" , "single_top_tot_MCstat_syst_Up", 10000, 0, 10000);
+  TH1D* single_top_tot_MCstat_syst_Down = new TH1D("single_top_tot_MCstat_syst_Down" , "single_top_tot_MCstat_syst_Down", 10000, 0, 10000);
+  //
+  TH1D* DY_tot_MCstat_syst_Up = new TH1D("DY_tot_MCstat_syst_Up" , "DY_tot_MCstat_syst_Up", 10000, 0, 10000);
+  TH1D* DY_tot_MCstat_syst_Down = new TH1D("DY_tot_MCstat_syst_Down" , "DY_tot_MCstat_syst_Down", 10000, 0, 10000);
+  //
+  TH1D* WZ_tot_MCstat_syst_Up = new TH1D("WZ_tot_MCstat_syst_Up" , "WZ_tot_MCstat_syst_Up", 10000, 0, 10000);
+  TH1D* WZ_tot_MCstat_syst_Down = new TH1D("WZ_tot_MCstat_syst_Down" , "WZ_tot_MCstat_syst_Down", 10000, 0, 10000);
+  //
+  TH1D* ZZ_tot_MCstat_syst_Up = new TH1D("ZZ_tot_MCstat_syst_Up" , "ZZ_tot_MCstat_syst_Up", 10000, 0, 10000);
+  TH1D* ZZ_tot_MCstat_syst_Down = new TH1D("ZZ_tot_MCstat_syst_Down" , "ZZ_tot_MCstat_syst_Down", 10000, 0, 10000);
+  //
+  TH1D* Wgamma_MCstat_syst_Up = new TH1D("Wgamma_MCstat_syst_Up" , "Wgamma_MCstat_syst_Up", 10000, 0, 10000);
+  TH1D* Wgamma_MCstat_syst_Down = new TH1D("Wgamma_MCstat_syst_Down" , "Wgamma_MCstat_syst_Down", 10000, 0, 10000);
+ 
 
   double ttbar_kfact = 1.116;
   double WW_kfact = 1.1619;
@@ -127,13 +149,103 @@ void create_input_histos_ZPrimeSSM(int stage){
     if (sample_names[i]=="TT_tot") {
       std::cout << "Extra k-factor scaling will be done for TTbar background" << std::endl;
       hist_ori->Scale(ttbar_kfact);
+      std::cout << "nbin = " << hist_ori->GetNbinsX() << std::endl;
+      for (int ii=1; ii<10001; ii++) {
+	double bincontent=hist_ori->GetBinContent(ii);
+	double binerror=hist_ori->GetBinError(ii);
+	double up=bincontent+binerror;
+	double down=bincontent-binerror;
+	if (down<0.) down=0.;
+	TT_tot_MCstat_syst_Up->SetBinContent(ii,up);
+        TT_tot_MCstat_syst_Down->SetBinContent(ii,down);
+      }
     }
 
     if (sample_names[i]=="WW_tot") {
       std::cout << "Extra k-factor scaling will be done for WW background" << std::endl;
       hist_ori->Scale(WW_kfact);
+      std::cout << "nbin = " << hist_ori->GetNbinsX() << std::endl;
+      for (int ii=1; ii<10001; ii++) {
+	double bincontent=hist_ori->GetBinContent(ii);
+	double binerror=hist_ori->GetBinError(ii);
+	double up=bincontent+binerror;
+	double down=bincontent-binerror;
+	if (down<0.) down=0.;
+	WW_tot_MCstat_syst_Up->SetBinContent(ii,up);
+        WW_tot_MCstat_syst_Down->SetBinContent(ii,down);
+      }
     }
-      
+
+
+    if (sample_names[i]=="single_top_tot") {
+      std::cout << "nbin = " << hist_ori->GetNbinsX() << std::endl;
+      for (int ii=1; ii<10001; ii++) {
+	double bincontent=hist_ori->GetBinContent(ii);
+	double binerror=hist_ori->GetBinError(ii);
+	double up=bincontent+binerror;
+	double down=bincontent-binerror;
+	if (down<0.) down=0.;
+	single_top_tot_MCstat_syst_Up->SetBinContent(ii,up);
+        single_top_tot_MCstat_syst_Down->SetBinContent(ii,down);
+      }
+    }
+
+
+    if (sample_names[i]=="DY_tot") {
+      std::cout << "nbin = " << hist_ori->GetNbinsX() << std::endl;
+      for (int ii=1; ii<10001; ii++) {
+	double bincontent=hist_ori->GetBinContent(ii);
+	double binerror=hist_ori->GetBinError(ii);
+	double up=bincontent+binerror;
+	double down=bincontent-binerror;
+	if (down<0.) down=0.;
+	DY_tot_MCstat_syst_Up->SetBinContent(ii,up);
+        DY_tot_MCstat_syst_Down->SetBinContent(ii,down);
+      }
+    }
+
+
+    if (sample_names[i]=="WZ_tot") {
+      std::cout << "nbin = " << hist_ori->GetNbinsX() << std::endl;
+      for (int ii=1; ii<10001; ii++) {
+	double bincontent=hist_ori->GetBinContent(ii);
+	double binerror=hist_ori->GetBinError(ii);
+	double up=bincontent+binerror;
+	double down=bincontent-binerror;
+	if (down<0.) down=0.;
+	WZ_tot_MCstat_syst_Up->SetBinContent(ii,up);
+        WZ_tot_MCstat_syst_Down->SetBinContent(ii,down);
+      }
+    }
+
+
+    if (sample_names[i]=="ZZ_tot") {
+      std::cout << "nbin = " << hist_ori->GetNbinsX() << std::endl;
+      for (int ii=1; ii<10001; ii++) {
+	double bincontent=hist_ori->GetBinContent(ii);
+	double binerror=hist_ori->GetBinError(ii);
+	double up=bincontent+binerror;
+	double down=bincontent-binerror;
+	if (down<0.) down=0.;
+	ZZ_tot_MCstat_syst_Up->SetBinContent(ii,up);
+        ZZ_tot_MCstat_syst_Down->SetBinContent(ii,down);
+      }
+    }
+
+    if (sample_names[i]=="Wgamma") {
+      std::cout << "nbin = " << hist_ori->GetNbinsX() << std::endl;
+      for (int ii=1; ii<10001; ii++) {
+	double bincontent=hist_ori->GetBinContent(ii);
+	double binerror=hist_ori->GetBinError(ii);
+	double up=bincontent+binerror;
+	double down=bincontent-binerror;
+	if (down<0.) down=0.;
+	Wgamma_MCstat_syst_Up->SetBinContent(ii,up);
+        Wgamma_MCstat_syst_Down->SetBinContent(ii,down);
+      }
+    }
+
+    //  TString sample_names[] = {"TT_tot","WW_tot","single_top_tot","DY_tot","WZ_tot","ZZ_tot","Wgamma","datadriven"};      
     hist_ori->SetName(sample_names[i]);
     
     outfile->cd();
@@ -179,7 +291,29 @@ void create_input_histos_ZPrimeSSM(int stage){
     //loop over other systematics
     //###############  
     if (debug) std::cout << "will start the syst loop"<< std::endl;
-    
+    // std::cout << "MEAN hist classname " << hist_ori->ClassName() << std::endl;
+    // std::cout << "UP hist classname " << hist_pdf_thisBkg_Up->ClassName() << std::endl;
+    if (sample_names[i] == "TT_tot" )  myfile << "bkg " << "TT_tot_MCstat_syst_Up "  << TT_tot_MCstat_syst_Up->Integral(1,10000) << "\n";
+    if (sample_names[i] == "TT_tot" )  myfile << "bkg " << "TT_tot_MCstat_syst_Down "  << TT_tot_MCstat_syst_Down->Integral(1,10000) << "\n";
+    if (sample_names[i] == "WW_tot" )  myfile << "bkg " << "WW_tot_MCstat_syst_Up "  << WW_tot_MCstat_syst_Up->Integral(1,10000) << "\n";
+    if (sample_names[i] == "WW_tot" )  myfile << "bkg " << "WW_tot_MCstat_syst_Down "  << WW_tot_MCstat_syst_Down->Integral(1,10000) << "\n";
+    //
+    if (sample_names[i] == "single_top_tot" )  myfile << "bkg " << "single_top_tot_MCstat_syst_Up "  << single_top_tot_MCstat_syst_Up->Integral(1,10000) << "\n";
+    if (sample_names[i] == "single_top_tot" )  myfile << "bkg " << "single_top_tot_MCstat_syst_Down "  << single_top_tot_MCstat_syst_Down->Integral(1,10000) << "\n";
+    //
+    if (sample_names[i] == "DY_tot" )  myfile << "bkg " << "DY_tot_MCstat_syst_Up "  << DY_tot_MCstat_syst_Up->Integral(1,10000) << "\n";
+    if (sample_names[i] == "DY_tot" )  myfile << "bkg " << "DY_tot_MCstat_syst_Down "  << DY_tot_MCstat_syst_Down->Integral(1,10000) << "\n";
+    //
+    if (sample_names[i] == "WZ_tot" )  myfile << "bkg " << "WZ_tot_MCstat_syst_Up "  << WZ_tot_MCstat_syst_Up->Integral(1,10000) << "\n";
+    if (sample_names[i] == "WZ_tot" )  myfile << "bkg " << "WZ_tot_MCstat_syst_Down "  << WZ_tot_MCstat_syst_Down->Integral(1,10000) << "\n";  
+    //
+    if (sample_names[i] == "ZZ_tot" )  myfile << "bkg " << "ZZ_tot_MCstat_syst_Up "  << ZZ_tot_MCstat_syst_Up->Integral(1,10000) << "\n";
+    if (sample_names[i] == "ZZ_tot" )  myfile << "bkg " << "ZZ_tot_MCstat_syst_Down "  << ZZ_tot_MCstat_syst_Down->Integral(1,10000) << "\n";  
+    //
+    if (sample_names[i] == "Wgamma" )  myfile << "bkg " << "Wgamma_MCstat_syst_Up "  << Wgamma_MCstat_syst_Up->Integral(1,10000) << "\n";
+    if (sample_names[i] == "Wgamma" )  myfile << "bkg " << "Wgamma_MCstat_syst_Down "  << Wgamma_MCstat_syst_Down->Integral(1,10000) << "\n";  
+    //
+
     if (sample_names[i] != "datadriven") {
       for(int k=0; k<arraySize_systs; k++)
 	{
@@ -216,12 +350,31 @@ void create_input_histos_ZPrimeSSM(int stage){
 	
       }
     }
+  
     if (debug) std::cout << "Will delete hist_ori "<< std::endl;
     delete hist_ori;
     if (debug) std::cout << "Successfully deleted hist_ori "<< std::endl;
     
     
   }
+   TT_tot_MCstat_syst_Up->Write();
+   TT_tot_MCstat_syst_Down->Write();
+   WW_tot_MCstat_syst_Up->Write();
+   WW_tot_MCstat_syst_Down->Write();
+   single_top_tot_MCstat_syst_Up->Write();
+   single_top_tot_MCstat_syst_Down->Write();
+  
+   DY_tot_MCstat_syst_Up->Write();
+   DY_tot_MCstat_syst_Down->Write();
+   
+   WZ_tot_MCstat_syst_Up->Write();
+   WZ_tot_MCstat_syst_Down->Write();
+   
+   ZZ_tot_MCstat_syst_Up->Write();
+   ZZ_tot_MCstat_syst_Down->Write();
+
+   Wgamma_MCstat_syst_Up->Write();
+   Wgamma_MCstat_syst_Down->Write();
   
   
   //###############
@@ -232,7 +385,7 @@ void create_input_histos_ZPrimeSSM(int stage){
 
   //TAG get the file with the data histogram
   if (debug) std::cout << "will get data root file"<< std::endl;
-  TFile* data_file = new TFile("/net/scratch_cms3a/erdweg/public/2016_results/May/allData.root");
+  TFile* data_file = new TFile("/net/scratch_cms3a/erdweg/public/2016_results/Sep/allData.root");
   TH1D* data;
   //  data=(TH1F*)data_file->Get("h1_inv_mass_1mu_1tau_aligned_7_0");
   //if (debug) 
@@ -250,30 +403,30 @@ void create_input_histos_ZPrimeSSM(int stage){
 
   TFile* infile_sig_all;
   TString rootfilenames_sig_all[] = {
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_600_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_700_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_800_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_900_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_1000_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_1100_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_1200_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_1300_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_1400_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_1500_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_1600_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_1700_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_1800_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_1900_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_2000_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_2200_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_2400_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_2600_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_2800_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_3000_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_3500_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_4000_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_4500_13TeV_P8.root",
-    "/net/scratch_cms3a/erdweg/public/2016_results/May/ZPrimeToEMu_M_5000_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_600_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_700_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_800_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_900_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_1000_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_1100_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_1200_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_1300_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_1400_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_1500_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_1600_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_1700_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_1800_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_1900_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_2000_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_2200_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_2400_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_2600_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_2800_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_3000_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_3500_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_4000_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_4500_13TeV_P8.root",
+    "/net/scratch_cms3a/erdweg/public/2016_results/Sep/ZPrimeToEMu_M_5000_13TeV_P8.root",
   };
 
   std::string sample_names_sig[] = {"600", "700", "800", "900", "1000", "1100", "1200", "1300", "1400", "1500", "1600", "1700", "1800", "1900", "2000", "2200", "2400", "2600", "2800", "3000", "3500", "4000", "4500", "5000"};
